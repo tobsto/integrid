@@ -212,14 +212,6 @@ void mesh::create()
 		counter++;
 	}
 
-	ofstream out;
-	out.open("mesh0.dat");
-	for (int i=0; i!=this->omega.size(); i++)
-	{
-		out << i << "\t" << this->omega[i] << endl;
-	}
-	out.close();
-
 	// insert special points
 	counter=0;
 	int lindex, rindex;
