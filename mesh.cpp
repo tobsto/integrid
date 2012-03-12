@@ -57,29 +57,43 @@ void mesh::create()
 	}
 	this->omega_min=this->mgr.omega_min;
 	this->omega_max=this->mgr.omega_max;
-	// sort out points which are too narrow to each other or above/below the endpoints or the endpoints of the multigrid
 	double ntol=numeric_limits<double>::epsilon();
+	// sort out points endpoints which are below/above the endpoints of the multigrid
+	if (lendpoint && (this->omegal>=this->omega_max || this->omegal<=this->omega_min))
+	{
+		lendpoint=false;
+	}
+	if (rendpoint && (this->omegar>=this->omega_max || this->omegar<=this->omega_min))
+	{
+		rendpoint=false;
+	}
+	if ((omegar-omegal)<=ntol)
+	{
+		cerr << "Error: mesh: Left endpoint (" << omegal << ") must be greater (plus machineprecision) than right endpoint (" << omegar << "). Break." << endl;
+		exit(1);
+	}
+	// sort out points which are too narrow to each other or above/below the endpoints or the endpoints of the multigrid
 	vector<int> eraseCandidates;
 	for (int i=0; i<this->spoints.size(); i++)
 	{
 		if (lendpoint && this->spoints[i]<=omegal)
 		{
-			cout << "skip point " << i << " : " << this->spoints[i] << endl;
+			//cout << "skip point " << i << " : " << this->spoints[i] << endl;
 			eraseCandidates.push_back(i);
 		}
 		else if (rendpoint && this->spoints[i]>=omegar)
 		{
-			cout << "skip point " << i << " : " << this->spoints[i] << endl;
+			//cout << "skip point " << i << " : " << this->spoints[i] << endl;
 			eraseCandidates.push_back(i);
 		}
 		else if (this->spoints[i]<=this->omega_min)
 		{
-			cout << "skip point " << i << " : " << this->spoints[i] << endl;
+			//cout << "skip point " << i << " : " << this->spoints[i] << endl;
 			eraseCandidates.push_back(i);
 		}
 		else if (this->spoints[i]>=this->omega_max)
 		{
-			cout << "skip point " << i << " : " << this->spoints[i] << endl;
+			//cout << "skip point " << i << " : " << this->spoints[i] << endl;
 			eraseCandidates.push_back(i);
 		}
 		else
@@ -88,7 +102,7 @@ void mesh::create()
 			{
 				if (fabs(this->spoints[i]-this->spoints[j])<=numeric_limits<double>::epsilon())
 				{
-					cout << "skip point " << i << " : " << this->spoints[i] << endl;
+					//cout << "skip point " << i << " : " << this->spoints[i] << endl;
 					eraseCandidates.push_back(i);
 					break;
 				}
@@ -110,12 +124,12 @@ void mesh::create()
 		{
 			if (lendpoint && fabs(this->omegal-this->spoints[j])<=numeric_limits<double>::epsilon())
 			{
-				cout << "skip point " << j << " : " << this->spoints[j] << endl;
+				//cout << "skip point " << j << " : " << this->spoints[j] << endl;
 				eraseCandidates.push_back(j);
 			}
 			else if (rendpoint && fabs(this->omegar-this->spoints[j])<=numeric_limits<double>::epsilon())
 			{
-				cout << "skip point " << j << " : " << this->spoints[j] << endl;
+				//cout << "skip point " << j << " : " << this->spoints[j] << endl;
 				eraseCandidates.push_back(j);
 			}
 		}
@@ -146,12 +160,12 @@ void mesh::create()
 		I=this->mgr.inverse(this->spoints[i]);
 		if (this->spoints[i]>=this->omega[I])
 		{
-			cout << "point " << spoints[i] << " at " << I << endl;
+			//cout << "point " << spoints[i] << " at " << I << endl;
 			indices.push_back(I);
 		}
 		else
 		{
-			cout << "point " << spoints[i] << " at " << I-1 << endl;
+			//cout << "point " << spoints[i] << " at " << I-1 << endl;
 			indices.push_back(I-1);
 		}
 	}
@@ -163,12 +177,12 @@ void mesh::create()
 		if (fabs(this->spoints[i]-this->omega[I])<=ntol)
 		{
 			eraseCandidates.push_back(I);
-			cout << "skip orig. point " << I << " : " << this->omega[I] << endl;
+			//cout << "skip orig. point " << I << " : " << this->omega[I] << endl;
 		}
 		if (fabs(this->spoints[i]-this->omega[I+1])<=ntol)
 		{
 			eraseCandidates.push_back(I+1);
-			cout << "skip orig. point " << I+1 << " : " << this->omega[I+1] << endl;
+			//cout << "skip orig. point " << I+1 << " : " << this->omega[I+1] << endl;
 		}
 	}
 
@@ -187,7 +201,7 @@ void mesh::create()
 				nleft[i]++;
 			}
 		}		
-		cout << "nleft[" << i <<"] = " << nleft[i] << endl;
+		//cout << "nleft[" << i <<"] = " << nleft[i] << endl;
 	}
 
 	// erase eraseCandidates
@@ -220,7 +234,7 @@ void mesh::create()
 		{
 			rindex=indices[i]+1-nleft[i]+counter;
 		}
-		cout << "insert grid point " << indices[i]+1-nleft[i]+counter << " : " << this->spoints[i] << endl;
+		//cout << "insert grid point " << indices[i]+1-nleft[i]+counter << " : " << this->spoints[i] << endl;
 		this->omega.insert(this->omega.begin()+indices[i]+1-nleft[i]+counter, this->spoints[i]);
 		counter++;	
 	}
