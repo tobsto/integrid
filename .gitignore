@@ -1,0 +1,12 @@
+# ignore binary files
+*.[oa]
+*.out
+# ignore data, xmgrace-parameter, log, errorfiles and textfiles
+*.dat
+*.par
+*.log
+*.err
+*.txt
+# ignore all directories
+*/
+*.swp
