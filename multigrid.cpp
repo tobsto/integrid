@@ -746,6 +746,49 @@ void multigrid::replace_sgr_log(int N_l, int N_r, double omega_l, double omega_r
 	}
 	this->add_sgr_log(N_l, N_r, omega_l, omega_r, omegak, omegak_0, ID);
 }
+
+// wrapper for the equi-Gridregion functions
+void multigrid::add_gr_equi(double omega_l, double omega_r, double domegap)
+{
+	int N=max(int((omega_r-omega_l)/domegap), 3);
+	double omega_c=0.5*(omega_r+omega_l);
+	this->add_gr_equi(N, omega_l, omega_r, omega_c);
+}
+void multigrid::add_gr_equi(double omega_l, double omega_r, double domegap, string ID)
+{
+	int N=max(int((omega_r-omega_l)/domegap), 3);
+	double omega_c=0.5*(omega_r+omega_l);
+	this->add_gr_equi(N, omega_l, omega_r, omega_c, ID);
+}
+void multigrid::add_sgr_equi(double omega_l, double omega_r, double domegap)
+{
+	int N=max(int((omega_r-omega_l)/domegap), 3);
+	double omega_c=0.5*(omega_r+omega_l);
+	this->add_sgr_equi(N, omega_l, omega_r, omega_c);
+}
+void multigrid::add_sgr_equi(double omega_l, double omega_r, double domegap, string ID)
+{
+	int N=max(int((omega_r-omega_l)/domegap), 3);
+	double omega_c=0.5*(omega_r+omega_l);
+	this->add_sgr_equi(N, omega_l, omega_r, omega_c, ID);
+}
+void multigrid::replace_gr_equi(double omega_l, double omega_r, double domegap, string ID)
+{
+	if (this->gr_exists(ID))
+	{
+		this->rem_gr(ID);
+	}
+	this->add_gr_equi(omega_l, omega_r, domegap, ID);
+}
+void multigrid::replace_sgr_equi(double omega_l, double omega_r, double domegap, string ID)
+{
+	if (this->sgr_exists(ID))
+	{
+		this->rem_sgr(ID);
+	}
+	this->add_sgr_equi(omega_l, omega_r, domegap, ID);
+}
+
 // wrapper for logarithmic grid regions
 void multigrid::add_gr_log(double omega_c, double omega1, double domega_min, double domega_max)
 {

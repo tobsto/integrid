@@ -100,6 +100,14 @@ class multigrid : public grid
 	void replace_gr_tan(int N, double omega_min, double omega_max, double omega_c, double c, string id);
 	void replace_gr_log(int N, int M, double omega_min, double omega_max, double omegak, double omegak_0, string id);
 
+	// wrapper for the equi-Gridregion functions
+	void add_gr_equi(double omega_min, double omega_max, double domega);
+	void add_gr_equi(double omega_min, double omega_max, double domega, string id);
+	void add_sgr_equi(double omega_min, double omega_max, double domega);
+	void add_sgr_equi(double omega_min, double omega_max, double domega, string id);
+	void replace_gr_equi(double omega_min, double omega_max, double domega, string id);
+	void replace_sgr_equi(double omega_min, double omega_max, double domega, string id);
+
 	// wrapper for the log-Gridregion functions
 	void add_gr_log(double omega_c, double omega1, double domega_min, double domega_max);
 	void add_gr_log(double omega_c, double omega1, double domega_min, double domega_max, string id);

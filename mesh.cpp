@@ -343,6 +343,33 @@ void mesh::replace_gr_log(int N, int M, double omega_min, double omega_max, doub
 	this->mgr.replace_gr_log(N, M, omega_min, omega_max, omegak, omegak_0, id);
 }
 
+// wrapper for the equi-gridregion functions
+void mesh::add_gr_equi(double omega_l, double omega_r, double domegap)
+{
+	this->mgr.add_gr_equi(omega_l, omega_r, domegap);
+}
+void mesh::add_gr_equi(double omega_l, double omega_r, double domegap, string ID)
+{
+	this->mgr.add_gr_equi(omega_l, omega_r, domegap, ID);
+}
+void mesh::add_sgr_equi(double omega_l, double omega_r, double domegap)
+{
+	this->mgr.add_sgr_equi(omega_l, omega_r, domegap);
+}
+void mesh::add_sgr_equi(double omega_l, double omega_r, double domegap, string ID)
+{
+	this->mgr.add_sgr_equi(omega_l, omega_r, domegap, ID);
+}
+void mesh::replace_gr_equi(double omega_l, double omega_r, double domegap, string ID)
+{
+	this->mgr.replace_gr_equi(omega_l, omega_r, domegap, ID);
+}
+void mesh::replace_sgr_equi(double omega_l, double omega_r, double domegap, string ID)
+{
+	this->mgr.replace_sgr_equi(omega_l, omega_r, domegap, ID);
+}
+
+
 // wrapper for the log-Gridregion functions
 void mesh::add_gr_log(double omega_c, double omega1, double domega_min, double domega_max)
 {
