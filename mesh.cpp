@@ -67,7 +67,7 @@ void mesh::create()
 	{
 		rendpoint=false;
 	}
-	if ((omegar-omegal)<=ntol)
+	if (lendpoint && rendpoint && (omegar-omegal)<=ntol)
 	{
 		cerr << "Error: mesh: Left endpoint (" << omegal << ") must be greater (plus machineprecision) than right endpoint (" << omegar << "). Break." << endl;
 		exit(1);
