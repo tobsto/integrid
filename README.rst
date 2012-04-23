@@ -79,12 +79,12 @@ To resolve steps or very sharp peaks in the integrand function one needs a lot o
 
 Figure: Logarithmically dense grid region to resolve a peaked integrand function
 
-It is created by the function ``add\_gr\_log( omega_0, omega_1, domega_max, domega_min)``. 
+It is created by the function ``add_gr_log( omega_0, omega_1, domega_max, domega_min)``. 
 
 For example the following code adds a LGR on top of the equidistant grid region from above. Note that since the equidistant grid region was added first, it determines the outer boundaries of the whole grid (here from -4 to 4). The first added grid region is therefore a special one and is called the basic grid region::
 
     mgrid.add_gr_equi(-4, 4, 0.01);
-    mgrid.add_gr_log(0.3,0.5,0.001,0.01);
+    mgrid.add_gr_log(0.3, 0.5,  0.001, 0.01);
     mgrid.create();
 
 .. image:: https://github.com/tstollenw/multigrid/raw/master/doc/pics/multigrid_01.png
@@ -93,8 +93,8 @@ The strength of the multigrid is that one can add now more and more grid regions
 
     multigrid mgrid;
     mgrid.add_gr_equi(-4, 4, 0.01);
-    mgrid.add_gr_log(0.3,0.5,0.001,0.01);
-    mgrid.add_gr_log(0.6,0.5,0.001,0.01);
+    mgrid.add_gr_log(0.3, 0.5, 0.001, 0.01);
+    mgrid.add_gr_log(0.6, 0.5, 0.001, 0.01);
     mgrid.create();
 
 .. image:: https://github.com/tstollenw/multigrid/raw/master/doc/pics/multigrid_02.png
