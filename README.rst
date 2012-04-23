@@ -22,6 +22,7 @@ At the moment the only possiblility to use the multigrid class is to directly in
 into your program directory. Include and link the files in the usual way. There is an example program main.cpp and the corresponding makefile which will create an excecutable example.out.
 
 First Steps
+-----------
 The numerical calculation of an integral over some function f(w)::
 
           _
