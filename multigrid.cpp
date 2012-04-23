@@ -792,25 +792,25 @@ void multigrid::replace_sgr_equi(double omega_l, double omega_r, double domegap,
 // wrapper for logarithmic grid regions
 void multigrid::add_gr_log(double omega_c, double omega1, double domega_min, double domega_max)
 {
-	double omega0 = min(  max(omega1 *domega_min/domega_max, 1E-14),  omega1/10.0);
+	double omega0 = min(  max(omega1 *domega_min/domega_max, 1E-10),  omega1/1.1);
 	int Nlog=max(int(log(omega1/omega0)*omega1/domega_max+0.5), 3);
 	this->add_gr_log(Nlog, Nlog+1, omega_c-omega1, omega_c+omega1, omega_c, omega0,"");
 }
 void multigrid::add_gr_log(double omega_c, double omega1, double domega_min, double domega_max, string id)
 {
-	double omega0 = min(  max(omega1 *domega_min/domega_max, 1E-14),  omega1/10.0);
+	double omega0 = min(  max(omega1 *domega_min/domega_max, 1E-10),  omega1/1.1);
 	int Nlog=max(int(log(omega1/omega0)*omega1/domega_max+0.5), 3);
 	this->add_gr_log(Nlog, Nlog+1, omega_c-omega1, omega_c+omega1, omega_c, omega0, id);
 }
 void multigrid::add_sgr_log(double omega_c, double omega1, double domega_min, double domega_max)
 {
-	double omega0 = min(  max(omega1 *domega_min/domega_max, 1E-14),  omega1/10.0);
+	double omega0 = min(  max(omega1 *domega_min/domega_max, 1E-10),  omega1/1.1);
 	int Nlog=max(int(log(omega1/omega0)*omega1/domega_max+0.5), 3);
 	this->add_sgr_log(Nlog, Nlog+1, omega_c-omega1, omega_c+omega1, omega_c, omega0,"");
 }
 void multigrid::add_sgr_log(double omega_c, double omega1, double domega_min, double domega_max, string id)
 {
-	double omega0 = min(  max(omega1 *domega_min/domega_max, 1E-14),  omega1/10.0);
+	double omega0 = min(  max(omega1 *domega_min/domega_max, 1E-10),  omega1/1.1);
 	int Nlog=max(int(log(omega1/omega0)*omega1/domega_max+0.5), 3);
 	this->add_sgr_log(Nlog, Nlog+1, omega_c-omega1, omega_c+omega1, omega_c, omega0, id);
 }

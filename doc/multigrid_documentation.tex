@@ -1,0 +1,217 @@
+\documentclass[a4paper]{scrreprt}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+
+
+\lstset{ %
+  language=C++,                % the language of the code
+  basicstyle=\normalsize\ttfamily,           % the size of the fonts that are used for the code
+%   numbers=left,                   % where to put the line-numbers
+%   numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+%   stepnumber=2,                   % the step between two line-numbers. If it's 1, each line 
+%                                   % will be numbered
+%   numbersep=5pt,                  % how far the line-numbers are from the code
+%   backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+%   showspaces=false,               % show spaces adding particular underscores
+%   showstringspaces=false,         % underline spaces within strings
+%   showtabs=false,                 % show tabs within strings adding particular underscores
+%   frame=single,                   % adds a frame around the code
+%   rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+%   tabsize=2,                      % sets default tabsize to 2 spaces
+%   captionpos=b,                   % sets the caption-position to bottom
+%   breaklines=true,                % sets automatic line breaking
+%   breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%   title=\lstname,                   % show the filename of files included with \lstinputlisting;
+%                                   % also try caption instead of title
+%   keywordstyle=\color{blue},          % keyword style
+%   commentstyle=\color{dkgreen},       % comment style
+%   stringstyle=\color{mauve},         % string literal style
+%   escapeinside={\%*}{*)},            % if you want to add a comment within your code
+%   morekeywords={*,...}               % if you want to add more keywords to the set
+}
+
+\usepackage{amsmath}
+\usepackage{empheq}
+\newcommand{\phFac}[1]{\mathrm{e}^{\mathrm{i} #1}}
+\newcommand{\phFacneg}[1]{\mathrm{e}^{-\mathrm{i} #1}}
+\newcommand{\planew}[2]{\mathrm{e}^{\mathrm{i} \mathbf{#1} \mathbf{#2}}}
+\newcommand{\planewneg}[2]{\mathrm{e}^{-\mathrm{i} \mathbf{#1} \mathbf{#2}}}
+\newcommand{\blf}[3]{\mathbf{#1}_{#2 \mathbf{#3}}}
+\newcommand{\blfs}[3]{#1_{#2 \mathbf{#3}}}
+\newcommand{\vp}[1]{\mathbf{#1}_{\mathcal{\parallel}}}
+\newcommand{\ve}[1]{\mathbf{#1}}
+\newcommand{\pd}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\scalProd}[2]{\langle #1 | #2 \rangle}
+\newcommand{\bra}[1]{\langle #1 |}
+\newcommand{\ket}[1]{|#1 \rangle}
+\newcommand{\ann}[2]{#1^{\phantom{\dagger}}_{#2}}
+\newcommand{\cre}[2]{#1^\dagger_{#2}}
+\newcommand{\ud}{^{\phantom{\dagger}}}
+\newcommand{\dd}{_{\phantom{\dagger}}}
+
+\begin{document}
+
+\title{Multigrid}
+\subtitle{A highly versatile integration grid class for C++}
+\author{Tobias Stollenwerk}
+\maketitle
+
+\tableofcontents
+
+% % From now on put page enumeration into topline
+% \pagestyle{headings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Introduction}
+
+The multigrid class is a highly versatile integration grid class for \texttt{C++}. It features the integration of multiple grid regions in order to resolve sharp peaks or steps in the integrand function. Hereby one can choose between equidistant, tangential and logarithmically dense grid regions. Although the number of grid regions is not bounded, there is an inverse mapping useful for fast interpolation purposes. Intersection and overlap of different grid region is possible will be dealt with by favouring the better resolve grid region.
+
+The original purpose of the multigrid class was to resolve a lot of sharp Lorentz-like peaks in a self-consistent calculation on strongly correlated electron systems.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Quick Start Guide}
+The purpose of this section is to give you a brief introduction of how the multigrid is used in practice. It may suffice for the most applications.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Installation}
+At the moment the only possiblility to use the multigrid class is to directly incorporate the source file into your program. It is planned to create a library version. At first download the latest version of the multigrid class from
+\begin{lstlisting}[language=bash]
+https://github.com/tstollenw/multigrid
+\end{lstlisting}
+unpack it and put the files
+\begin{lstlisting}
+multigrid.cpp
+multigrid.h
+grid.cpp
+grid.h
+mesh.cpp
+mesh.h
+\end{lstlisting}
+into your program directory. Include and link the files in the usual way. There is an example program \texttt{main.cpp} and the corresponding makefile \texttt{makefile} which will create an excecutable \texttt{example.out}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{First Steps}
+The numerical calculation of an integral over some function $f(\omega)$
+\[
+	I=\int d\omega f(\omega)
+\]
+can be written as
+\[
+	I=\sum_{i=0}^M d\omega_i f(\omega_i)
+\]
+where the $\omega_i$ is the discrete integration grid and $d\omega_i$ are the corresponding weights. The integration grid is a mapping from a discrete index $i\in\{0,M\}$ to a contineous variable $\omega_i$. The multigrid class provides both the integration grid and its weights (which are calculated by the trapez rule) as well as an inverse mapping (back from any $\omega$ to the nearest index $i$).
+
+In the following we will show the basic functionallity of the multigrid class by some simple examples. All these examples are more or less all part of the example program \texttt{main.cpp}. At first we will create a simple equidistant grid with from $-4$ to $4$ with a resolution of $0.01$ by 
+
+\vspace{1cm}
+\noindent\begin{minipage}[l]{0.6\textwidth}
+\begin{lstlisting}
+multigrid mgrid;
+mgrid.add_gr_equi(-4, 4, 0.01);
+mgrid.create();
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}[]{0.4\textwidth}
+	\includegraphics[width=1.0\textwidth]{pics/multigrid_00.eps}
+\end{minipage}
+
+After the declaration of the multigrid named \texttt{mgrid}, the member function \texttt{add\_gr\_equi} adds an equidistant grid region to the grid. The grid is created by invoking the \texttt{create} member function and it is accessed over its member variables (see table~\ref{tab:member}). 
+
+
+
+\begin{table}[h]
+	\begin{center}
+		\begin{tabular}{l|l|l}\hline
+		Name & Type & Description \\ \hline
+		\texttt{M} & integer & Number of grid points\\\hline
+		\texttt{omega} & STL-Vector & Grid\\\hline
+		\texttt{domega} & STL-Vector & Weights of the grid\\\hline
+		\texttt{omega\_min} & double & Minimum grid value (equal to \texttt{omega[0]}) \\\hline
+		\texttt{omega\_max} & double & Maximum grid value (equal to \texttt{omega[M]}) \\\hline
+		\texttt{inverse} & returns integer & Inverse mapping: $\omega\to i$ \\\hline
+		\end{tabular}
+	\end{center}
+	\label{tab:member}
+	\caption{Most important members of the multigrid}
+\end{table}
+
+The calculation of the above integral from $-4$ to $4$ is then done by
+
+\begin{lstlisting}
+double I=0;
+for (int i=0; i<=mgrid.M; j++)
+{
+	I += f(mgrid.omega[i]) * mgrid.domega[i];
+}
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Logarithmically Dense Grid Regions}
+To resolve steps or very sharp peaks in the integrand function one needs a lot of integration grid points at specific regions. The multigrid class provides a tool to solve such problems: logarithmically dense grid regions (LGR). An LGR is determined by four variables, i.e.~the center of the grid region $\omega_0$ which corresponds for example to the position of a peak in the integrand function, the half width of the grid region $\omega_1$, the maximal resolution $d\omega_{max}$ at the center of the grid region and the minimal resolution $d\omega_{min}$ at the edges of the grid region (see figure~\ref{fig:lgr}). 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{pics/loggridregion.eps}
+	\label{fig:lgr}
+	\caption{Logarithmically dense grid region to resolve a peaked integrand function}
+\end{figure}
+
+It is created by the function \texttt{add\_gr\_log($\omega_0$, $\omega_1$, $d\omega_{max}$, $d\omega_{min}$)}. For example the following code adds a LGR on top of the equidistant gridregion from above. Note that since the equidistant grid region was added first, it determines the outer boundaries of the whole grid (here from $-4$ to $4$). The first added grid region is therefore a special one and is called the basic grid region.
+\\
+\vspace{1cm}
+\noindent\begin{minipage}[l]{0.6\textwidth}
+\begin{lstlisting}
+multigrid mgrid;
+mgrid.add_gr_equi(-4, 4, 0.01);
+mgrid.add_gr_log(0.3,0.5,0.001,0.01);
+mgrid.create();
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}[]{0.4\textwidth}
+	\includegraphics[width=1.0\textwidth]{pics/multigrid_01.eps}
+\end{minipage}
+
+The strength of the multigrid is that one can add now more and more grid regions on top of each other. The \texttt{create} function will take care of calculating intersection points between the grid regions by favouring the better resolved grid region. In the following example the there are two intersecting LGR on top of an equidistant grid region. 
+\\
+\vspace{1cm}
+\noindent\begin{minipage}[l]{0.6\textwidth}
+\begin{lstlisting}
+multigrid mgrid;
+mgrid.add_gr_equi(-4, 4, 0.01);
+mgrid.add_gr_log(0.3,0.5,0.001,0.01);
+mgrid.add_gr_log(0.6,0.5,0.001,0.01);
+mgrid.create();
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}[]{0.4\textwidth}
+	\includegraphics[width=1.0\textwidth]{pics/multigrid_02.eps}
+\end{minipage}
+
+These are only the basic features of the multigrid class. There is an algorithm which decides where to cut grid regions if there is intersection or even skip a particular grid region in special cases. The decisive element is the grid resolution exactly at the center of a given grid region $\omega_0$. This is called the peak point. Hereby it is possible to add hundreds of grid regions on top of each other without losing the resolution at every single peak point. In figure~\ref{fig:multiple_lgr} there is an example for the necessity for multiple LGR in the integration grid. The integrand function has several sharp peaks which has to be resolved. Each peak is resolved by a LGR.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{pics/multiple_loggridregions.eps}
+	\label{fig:multiple_lgr}
+	\caption{Multigrid with various logarithmically dense grid regions to resolve a multiple peaked integrand function}
+\end{figure}
+
+\end{document}
+
