@@ -47,7 +47,7 @@ In the following we will show the basic functionallity of the multigrid class by
     mgrid.add_gr_equi(-4, 4, 0.01);
     mgrid.create();
 
-.. image:: doc/pics/multigrid_00.png
+.. image:: https://github.com/tstollenw/multigrid/raw/master/doc/pics/multigrid_00.png
 
 After the declaration of the multigrid named ``mgrid``, the member function ``add_gr_equi`` adds an equidistant grid region to the grid. The grid is created by invoking the ``create`` member function and it is accessed over its member variables. 
 
@@ -75,7 +75,7 @@ Logarithmically Dense Grid Regions
 ----------------------------------
 To resolve steps or very sharp peaks in the integrand function one needs a lot of integration grid points at specific regions. The multigrid class provides a tool to solve such problems: logarithmically dense grid regions (LGR). An LGR is determined by four variables, i.e.~the center of the grid region ``omega_0`` which corresponds for example to the position of a peak in the integrand function, the half width of the grid region ``omega_1``, the maximal resolution ``domega_max`` at the center of the grid region and the minimal resolution ``domega_min`` at the edges of the grid region. 
 
-.. image:: doc/pics/loggridregion.png
+.. image:: https://github.com/tstollenw/multigrid/raw/master/doc/pics/loggridregion.png
 
 Figure: Logarithmically dense grid region to resolve a peaked integrand function
 
@@ -87,7 +87,7 @@ For example the following code adds a LGR on top of the equidistant grid region 
     mgrid.add_gr_log(0.3,0.5,0.001,0.01);
     mgrid.create();
 
-.. image:: doc/pics/multigrid_01.png
+.. image:: https://github.com/tstollenw/multigrid/raw/master/doc/pics/multigrid_01.png
 
 The strength of the multigrid is that one can add now more and more grid regions on top of each other. The ``create`` function will take care of calculating intersection points between the grid regions by favoring the better resolved grid region. In the following example the there are two intersecting LGR on top of an equidistant grid region::
 
@@ -97,10 +97,10 @@ The strength of the multigrid is that one can add now more and more grid regions
     mgrid.add_gr_log(0.6,0.5,0.001,0.01);
     mgrid.create();
 
-.. image:: doc/pics/multigrid_02.png
+.. image:: https://github.com/tstollenw/multigrid/raw/master/doc/pics/multigrid_02.png
 
 These are only the basic features of the multigrid class. There is an algorithm which decides where to cut grid regions if there is intersection or even skip a particular grid region in special cases. The decisive element is the grid resolution exactly at the center of a given grid region ``omega_0``. This is called the peak point. Hereby it is possible to add hundreds of grid regions on top of each other without losing the resolution at every single peak point. In figure below there is an example for the necessity for multiple LGR in the integration grid. The integrand function has several sharp peaks which has to be resolved. Each peak is resolved by a LGR.
 
-.. image:: doc/pics/multiple_loggridregions.png
+.. image:: https://github.com/tstollenw/multigrid/raw/master/doc/pics/multiple_loggridregions.png
 
 Figure: Multigrid with various logarithmically dense grid regions to resolve a multiple peaked integrand function
