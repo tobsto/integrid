@@ -1485,8 +1485,8 @@ bool getIntersectionPoint(double & omegas, gridRegion & grl, gridRegion & grr)
 	}
 	else if (grl.type=="tan" && grr.type=="log")
 	{
-		double phalf=grl.para_d[0] - (grr.para_d[2]*pow(grl.para_d[1],2))/(2*grl.para_d[2]);
-		double q=pow(grl.para_d[0],2)-(grr.para_d[2]*pow(grl.para_d[1],2)*grr.para_d[0])/grl.para_d[2] + pow(grl.para_d[1],2);
+		double phalf=grl.para_d[0] - (grr.para_d[2]*grl.para_d[1])/(2*grl.para_d[2]);
+		double q=pow(grl.para_d[0],2)-(grr.para_d[2]*grl.para_d[1]*grr.para_d[0])/grl.para_d[2] + pow(grl.para_d[1],2);
 		double discriminant=pow(phalf,2)-q;
 		// in no intersection exists return error code
 		if (discriminant<0.0)
