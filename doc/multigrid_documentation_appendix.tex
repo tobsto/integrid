@@ -1,0 +1,77 @@
+\appendix
+\chapter{Loggrid parameter}
+\section{Boundary conditions}
+\label{sec:app_loggrid_boundary}
+In the following we will show how the four boundary conditions (\ref{eqn:loggrid_boundary_conditions})
+\begin{align}
+	\omega(0)&=\omega_{min}   \label{eqn:loggrid_boundary_condition_1}\\
+	\omega(N_l-1)&=\omega_k-\omega_0  \label{eqn:loggrid_boundary_condition_2}\\
+	\omega(N_l+N_k)&=\omega_k+\omega_0   \label{eqn:loggrid_boundary_condition_3}\\
+	\omega(N_l+N_k+N_r)&=\omega_{max}   \label{eqn:loggrid_boundary_condition_4}
+\end{align}
+determine the four parameters $i_1$, $i_2$, $c_1$ and $c_2$ in the definition of the logarithmic grid~(\ref{eqn:loggrid_definition}):
+\begin{equation*}
+	\omega(i)=\begin{cases}
+		-\exp(-c_1(i-i_1)) + \omega_k 		\quad & i\in\{0,\dots,N_l-1\} \\ 
+		\omega_k-\omega_0+d\omega_k(i-N_l)	\quad & i\in\{N_l,\dots,N_l+N_k-1\} \\ 
+		\exp(c_2(i-i_2-N_l-N_k)) + \omega_k 	\quad & i\in\{N_l+N_k,\dots,N_l+N_k+N_r\}
+	\end{cases}
+\end{equation*}
+
+\vspace{1cm}
+\noindent\underline{Determine $i_1$ and $c_1$:}\\
+
+\noindent Insert \ref{eqn:loggrid_definition} into (\ref{eqn:loggrid_boundary_condition_1}) and (\ref{eqn:loggrid_boundary_condition_2}):
+\begin{align}
+	-\exp(-c_1(0-i_1))+\omega_k&=\omega_{min} \quad \Leftrightarrow \quad \log(\omega_k-\omega_{min})=c_1 i_1 \label{eqn:app_loggrid_boundary_condition_1_1}\\
+	-\exp(-c_1(N_l-1-i_1))+\omega_k&=\omega_k-\omega_0 \quad \Leftrightarrow \quad \log(\omega_0)=-c_1(N_l-1-i_1) \label{eqn:app_loggrid_boundary_condition_2_1}
+\end{align}
+Difference (\ref{eqn:app_loggrid_boundary_condition_1_1}) $-$ (\ref{eqn:app_loggrid_boundary_condition_2_1}):
+\[
+	\log\left(\frac{\omega_k-\omega_{min}}{\omega_0}\right)=c_1 (N_l-1) \quad \boxed{\Rightarrow c_1=\frac{\log\left(\frac{\omega_k-\omega_{min}}{\omega_0}\right)}{N_l-1}}
+\]
+Insert into (\ref{eqn:app_loggrid_boundary_condition_2_1}):
+\[
+	\boxed{i_1=\frac{\log(\omega_k-\omega_{min})}{c_1}}
+\]
+
+\newpage
+\vspace{1cm}
+\noindent\underline{Determine $i_2$ and $c_2$:}\\
+
+\noindent Insert \ref{eqn:loggrid_definition} into (\ref{eqn:loggrid_boundary_condition_1}) and (\ref{eqn:loggrid_boundary_condition_2}):
+\begin{align}
+	\exp(c_2(0-i_2))+\omega_k&=\omega_k+\omega_0 \quad \Leftrightarrow \quad \log(\omega_0)=c_2 (0-i_2) \label{eqn:app_loggrid_boundary_condition_3_1}\\
+	\exp(c_2(N_r-i_2))+\omega_k&=\omega_{\max} \quad \Leftrightarrow \quad \log(\omega_{max}-\omega_k)=c_2(N_r-i_2) \label{eqn:app_loggrid_boundary_condition_4_1}
+\end{align}
+Difference (\ref{eqn:app_loggrid_boundary_condition_4_1}) $-$ (\ref{eqn:app_loggrid_boundary_condition_3_1}):
+\[
+	\log\left(\frac{\omega_{max}-\omega_k}{\omega_0}\right)=c_2 (N_r)\\\Rightarrow \boxed{c_2=\frac{\log\left(\frac{\omega_{max}-\omega_k}{\omega_0}\right)}{N_r}}
+\]
+Insert into (\ref{eqn:app_loggrid_boundary_condition_4_1}):
+\[
+	\boxed{i_2=-\frac{\log(\omega_{max}-\omega_k)}{c_2} + N_r}
+\]
+\section{Maximal resolution}
+\label{sec:app_loggrid_max_resolution}
+The maximal resolution of the exponential grid regions to the left (region I), $d\omega_{max}^{l}$ and to the right (region III), $d\omega_{max}^{r}$ of the center point in a logarithmic grid reads
+\begin{align*}
+	d\omega_{max}^{l} & = \omega(N_l-1)-\omega(N_l-2) \notag \\
+	& = -\exp(-c_1(N_l-1-i_1))+exp(-c_1(N_l-2-1_1)) \notag \\
+	& = \exp(-c_1(N_l-1-i_1))(e^{c_1}-1)
+\end{align*}
+analogously we have
+\begin{align*}
+	d\omega_{max}^{r} & = \omega(N_l+N_k+1)-\omega(N_l+N_k) \notag \\
+	& = \exp(-c_2 i_2)(e^{c_2}-1)
+\end{align*}
+The resolution of the linear grid (region II) will be the maximum of both
+\[
+	d\omega_k = max( d\omega_{max}^{l} ,\,d\omega_{max}^{r})
+\]
+
+
+
+
+
+

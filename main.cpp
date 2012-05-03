@@ -25,7 +25,7 @@ void save(vector <double> func, multigrid & mgrid, string filename)
 	}
 	out.close();
 }
-void saveGrid(multigrid & mgrid, string filename)
+void saveGrid(grid & mgrid, string filename)
 {
 	ofstream out;
 	out.open(filename.c_str());
@@ -43,8 +43,11 @@ int main(int argc, char * argv[])
 {
 	system ("mkdir -p output");
 
+	/*
+	// ***********************************************
 	// ***********************************************
 	// ********* First Example ***********************
+	// ***********************************************
 	// ***********************************************
 	// initialize multigrid named mgrid
 	multigrid mgrid;
@@ -81,7 +84,35 @@ int main(int argc, char * argv[])
 		I+=func[i]*mgrid.domega[i];
 	}
 	cout << "Integral over lorentz curve is " << I << endl;
+	*/
 
+	/*
+	// ***********************************************
+	// ***********************************************
+	// ********* Grid types **************************
+	// ***********************************************
+	// ***********************************************
+	equigrid egrid(100, -4, 4);
+	saveGrid(egrid, "output/equigrid.dat");
+	tangrid tgrid(100, -4, 4, 1, 0.5);
+	saveGrid(tgrid, "output/tangrid.dat");
+	loggrid lgrid(30, 30, -4, 4, 1, 0.4);
+	saveGrid(lgrid, "output/loggrid.dat");
+	*/
+
+	// ***********************************************
+	// ***********************************************
+	// ********* Example for adding GR ***************
+	// ***********************************************
+	// ***********************************************
+	multigrid mgrid;
+	mgrid.add_gr_equi(100, -1, 1, 0);
+	mgrid.add_gr_tan(100, 0.2, 0.5, 0.3, 0.01);
+	mgrid.add_gr_log(100, 100, 0.4, 0.7, 0.6, 1E-6, "some_loggrid");
+	mgrid.create();
+	saveGrid(mgrid, "output/example_adding_gr.dat");
+
+	
 	/*
 	// mesh: multigrid without inverse mapping
 	mesh amesh;
