@@ -1957,7 +1957,7 @@ void multigrid::create()
 		{
 			if (fgridRegions[n].id==fgridRegions[m].id && fgridRegions[m].id!="")
 			{
-				cerr << "Error: multigrid: create: Two grid fundamental grid regions are not allowed to have the same name: " << fgridRegions[n].id << endl;
+				cerr << "Error: multigrid: create: Two fundamental grid regions are not allowed to have the same name: " << fgridRegions[n].id << endl;
 				cerr << "Break." << endl;
 				throw xBadValues();
 			}
@@ -2078,7 +2078,7 @@ void multigrid::create()
 		{
 			if (sgridRegions[n].id==sgridRegions[m].id && sgridRegions[m].id!="")
 			{
-				cerr << "Error: multigrid: create: Two grid special grid regions are not allowed to have the same name: " << sgridRegions[n].id << endl;
+				cerr << "Error: multigrid: create: Two special grid regions are not allowed to have the same name: " << sgridRegions[n].id << endl;
 				cerr << "Break." << endl;
 				throw xBadValues();
 			}
