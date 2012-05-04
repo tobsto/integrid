@@ -102,16 +102,49 @@ int main(int argc, char * argv[])
 
 	// ***********************************************
 	// ***********************************************
-	// ********* Example for adding GR ***************
+	// ********* Example for adding a GR *************
 	// ***********************************************
 	// ***********************************************
 	multigrid mgrid;
 	mgrid.add_gr_equi(100, -1, 1, 0);
 	mgrid.add_gr_tan(100, 0.2, 0.5, 0.3, 0.01);
-	mgrid.add_gr_log(100, 100, 0.4, 0.7, 0.6, 1E-6, "some_loggrid");
+	mgrid.add_gr_log(100, 100, 0.4, 0.7, 0.6, 1E-6, "gr");
 	mgrid.create();
 	saveGrid(mgrid, "output/example_adding_gr.dat");
 
+	/*
+	// ***********************************************
+	// ***********************************************
+	// ********* Example for replaceing a GR *********
+	// ***********************************************
+	// ***********************************************
+	multigrid mgrid;
+	mgrid.add_gr_equi(100, -1, 1, 0);
+	mgrid.add_gr_tan(100, 0.2, 0.5, 0.3, 0.01);
+	mgrid.add_gr_log(100, 100, 0.4, 0.7, 0.6, 1E-6, "gr");
+	mgrid.create();
+
+	mgrid.replace_gr_equi(100, -0.5, 0.0, -0.2, "gr");
+	mgrid.create();
+	saveGrid(mgrid, "output/example_replacing_gr.dat");
+	*/
+
+	/*
+	// ***********************************************
+	// ***********************************************
+	// ********* Example for adding SGR **************
+	// ***********************************************
+	// ***********************************************
+	multigrid mgrid;
+	mgrid.add_gr_equi(100, -1, 1, 0);
+	mgrid.add_gr_tan(100, 0.2, 0.5, 0.3, 0.01);
+	mgrid.add_gr_log(100, 100, 0.4, 0.7, 0.6, 1E-6, "gr");
+	mgrid.add_sgr_equi(0.5, 0.8, 0.001);
+	mgrid.create();
+	saveGrid(mgrid, "output/example_adding_sgr.dat");
+	*/
+
+	
 	
 	/*
 	// mesh: multigrid without inverse mapping

@@ -1,7 +1,9 @@
-\chapter{Multigrid} \label{chapter:multigrid}
+\chapter{Multigrid} \label{chapter:multigrid_usage}
+In this chapter will introduce all the knowledge which is required for the usage of the multigrid. In order to understand the selection and cutting procedure which is the very heart of the multigrid class we refer to chapter \ref{chapter:multigrid_selection_and_cutting}.
 \index{Multigrid}
+
 \section{Overview}
-A multigrid consist of a single basic grid which defines the outer boundaries of the multigrid and multiple grid regions (GR). Each of these grid regions can be equidistant, tangential or logarithmic. If the grid regions overlap each other, they will be cut in such a way, that the grid resolution remains constant while crossing over the cutting point. It could also happen that a particular grid region is forced out by another grid region because the purpose of the former one is already served by the latter one. The first added grid region defines the outer boundaries of the multigrid and it is excluded from the cutting procedure. It is called basic grid region (BGR).
+A multigrid consist of a single basic grid which defines the outer boundaries of the multigrid and multiple grid regions. Each of these grid regions can be equidistant, tangential or logarithmic. If the grid regions overlap each other, they will be cut in such a way, that the grid resolution remains constant while crossing over the cutting point. It could also happen that a particular grid region is forced out by another grid region because the purpose of the former one is already served by the latter one. How this is done in detail will be part of chapter \ref{chapter:multigrid_selection_and_cutting}. The first added grid region defines the outer boundaries of the multigrid and it is excluded from the cutting procedure. It is called basic grid region.
 
 A multigrid is created in the following way (see listing \ref{lst:create_multigrid_sketch}). First it has to be initialized. Afterwards one can add, replace and remove multiple grid regions on the multigrid. This will be explained in detail in section \ref{sec:grid_regions}. Finally the member function \texttt{create} in invoked. Hereby the cutting and selection procedure will be performed and the multigrid will be created. 
 \begin{lstlisting}[caption={Creating a multigrid},	label={lst:create_multigrid_sketch}]
@@ -148,7 +150,7 @@ Its arguments are shown in table \ref{tab:add_gr_log}.
 \index{Grid region!logarithmic}
 \index{Grid region!replace}
 \index{Grid region!remove}
-We have seen, that if a grid region is added to the multigrid, it is optional give a name to this grid region. In contrast to that, you can only replace or remove grid regions which have a name. One can check if a grid region with the name \texttt{id} exists, by calling the function
+We have seen, that if a grid region is added to the multigrid, it is optional give a name to this grid region. In contrast to that, you can only replace or remove grid regions which have a name. One can check if a grid region with the name \texttt{id} exists, by calling the member function
 \begin{lstlisting}
 bool gr_exists(string id)
 \end{lstlisting}
@@ -156,7 +158,7 @@ If this is the case one can remove it by
 \begin{lstlisting}
 void rem_gr(string id)
 \end{lstlisting}
-In order to replace a grid region by one with the same name but different attributes one calls one of the replace functions
+In order to replace a grid region by one with the same name but different attributes one calls one of the replace member functions
 \begin{lstlisting}
 void replace_gr_equi(...)
 void replace_gr_tan(...)
@@ -171,35 +173,93 @@ where the arguments are exactly the same as the one for the add functions for th
 
 In this section we will show in some examples how the above grid regions can be added, replaced or removed from the multigrid. 
 
-\begin{lstlisting}[caption={Example for the adding of equidistant grid regions},label={lst:add_gr_equi}]
+\begin{lstlisting}[caption={Example for adding grid regions},label={lst:add_gr}]
 multigrid mgrid;
 mgrid.add_gr_equi(100, -1, 1, 0);
 mgrid.add_gr_tan(100, 0.2, 0.5, 0.3, 0.01);
-mgrid.add_gr_log(100, 100, 0.4, 0.7, 0.6, 1E-6, "lgrid");
-mgrid.create()
+mgrid.add_gr_log(100, 100, 0.4, 0.7, 0.6, 1E-6, "gr");
+mgrid.create();
 \end{lstlisting}
 
-In listing \ref{lst:add_gr_equi} we show an example for the adding of grid regions. At first an equidistant grid with $100$ points from $-4$ to $4$ is added to the multigrid. This defines the basic grid region and therefore the boundaries of the multigrid. The center point of a basic grid region (here at $0$) is obsolete because there is no cutting. Afterwards a tangential grid region with $200$ points from $0.2$ to $0.5$ with a center point at $0.3$ is added. The parameter $c$ is $0.01$ here. Finally a third, logarithmic grid region is added. It overlaps with the tangential grid region and an appropriate cutting point will be calculated such that the grid resolution remains constant across the cutting point. The logarithmic grid region is named   ``lgrid'' and has 100 points in both of the exponetial grid regions. Its boundaries are from $0.4$ to $0.7$, its center point $\omega_k$ is at $0.6$ and the half width of the linear region $\omega_0$ is $10^{-6}$.
+In listing \ref{lst:add_gr} we show an example for the adding of grid regions. At first an equidistant grid with $100$ points from $-4$ to $4$ is added to the multigrid. This defines the basic grid region and therefore the boundaries of the multigrid. The center point of a basic grid region (here at $0$) is obsolete because there is no cutting. Afterwards a tangential grid region with $200$ points from $0.2$ to $0.5$ with a center point at $0.3$ is added. The parameter $c$ is $0.01$ here. Finally a third, logarithmic grid region is added. It overlaps with the tangential grid region and an appropriate cutting point will be calculated such that the grid resolution remains constant across the cutting point. The logarithmic grid region is named   ``gr'' and has 100 points in both of the exponetial grid regions. Its boundaries are from $0.4$ to $0.7$, its center point $\omega_k$ is at $0.6$ and the half width of the linear region $\omega_0$ is $10^{-6}$. The resulting multigrid is shown in figure \ref{fig:example_add_gr}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{pics/example_add_gr.eps}
+	\caption{Multigrid corresponding to listing \ref{lst:add_gr}}
+	\label{fig:example_add_gr}
+\end{figure}
 
+\begin{lstlisting}[caption={Example for replacing a grid region},label={lst:replace_gr}]
+mgrid.replace_gr_equi(100, -0.5, 0.0, "gr");
+mgrid.create();
+\end{lstlisting}
 
+In listing \ref{lst:replace_gr} the logarithmic grid region named ``gr'' from the multigrid instance ``mgrid'' is replace by an equidistant grid region with the same name. In order to apply this change the create function has to be invoked once again. Note, that a if one tries to replace a non-existing grid region, this will result in a simple adding of the desired grid region. The resulting multigrid is shown in figure \ref{fig:example_replace_gr}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{pics/example_replace_gr.eps}
+	\caption{Multigrid corresponding to listing \ref{lst:replace_gr}}
+	\label{fig:example_replace_gr}
+\end{figure}
 
+\subsection{More convenient ways of adding and replacing}\label{subsec:wrapper}
+There are more convenient ways of adding or replacing equidistant and logarithmic grid regions. For the former it might be desirable to specifiy the grid resolution $d\omega$ instead of the number of grid points $M$. And for the latter it would be convinient just to give the maximal resolution at the center point $d\omega_{min}$ and the minimal resolution at the boundaries $d\omega_{min}$ together with the center point $\omega_k$ and the half width of grid region $\omega_1=(\omega_r-\omega_l)/2$ instead of specifing the grid point numbers $N_l$ and $N_r$, $\omega_0$ and the boundaries $\omega_l$ and $\omega_r$. Therefore there are wrapper function for the adding and replacing of equidistant and logarithmic grid regions which fulfill possess these properties. They are shown in the tables \ref{tab:add_gr_equi_wrapper} and \ref{tab:add_gr_log_wrapper}. For examples see the quick start (Chapter \ref{chapter:quick_start_guide}), where these wrapper functions are uses thoughout the entire chapter. Note that the center point of the equidistant grid region is naturally chosen to be $\omega_c=(\omega_r-\omega_l)/2$.
 
+\begin{table}[h]
+	\begin{center}
+		\begin{tabular}{lll}		
+		Argument  & Type & Description \\ \hline
+		\nth{1}   & \texttt{double} & Lower boundary ($\omega_l$) \\ 
+		\nth{2}   & \texttt{double} & Upper boundary ($\omega_r$) \\ 
+		\nth{3}   & \texttt{double} & Resolution ($d\omega$) \\
+		(\nth{4}) & \texttt{string} & Name of the grid region (\texttt{id})(optional)\\ 
+		\end{tabular}
+	\end{center}
+	\caption{Arguments of the wrapper functions \texttt{add\_gr\_equi} and \texttt{replace\_gr\_equi}}
+	\label{tab:add_gr_equi_wrapper}
+\end{table}
 
-\section{Cutting procedure}\label{sec:cutting_procedure}
-\index{Cutting procedure}
-If two grid regions intersect, they have to be cut or one of the grid regions has to be erased. This is the content of this chapter. 
+\begin{table}[h]
+	\begin{center}
+		\begin{tabular}{lll}		
+		Argument  & Type & Description \\ \hline
+		\nth{1}   & \texttt{double} & Center point ($\omega_k$) \\ 
+		\nth{2}   & \texttt{double} & Half width ($\omega_1$) \\ 
+		\nth{3}   & \texttt{double} & Maximal resolution at the center point ($d\omega_{min}$)\\ 
+		\nth{4}   & \texttt{double} & Minimal resolution at the boundaries ($d\omega_{max}$)\\ 
+		(\nth{5}) & \texttt{string} & Name of the grid region (\texttt{id})(optional)\\ 
+		\end{tabular}
+	\end{center}
+	\caption{Arguments of the wrapper functions \texttt{add\_gr\_log} and \texttt{replace\_gr\_log}}
+	\label{tab:add_gr_log_wrapper}
+\end{table}
 
-\section{Subgrid and inserting grid regions}\label{sec:subgrids_and_insert}
-\index{Subgrid}
-\index{Inverse of the multigrid}
-If all grid regions have gone through the cutting procedure explained in \ref{sec:cutting_procedure}, we are left with a bunch of non-intersection grid regions. These grid regions are now ready to be inserted into the basic grid region. But there is one difficulty we have not mentioned so far which is the fact that one has to take care of the inverse. Since all grid regions consist of one of the simple grid classes from chapter \ref{chapter:simple_grids}, their inverse mapping is know.
-
-\section{Inverse of the multigrid}\label{sec:inverse_of_the_multigrid}
-\index{Inverse of the multigrid}
-
-
-
+For the logarithmic grid region the mapping from maximal and minimal resolutions $d\omega_{max}$ and $d\omega_{min}$ to the loggrid variables $\omega_0$, $N_l$ and $N_r$ is determined by the following equations
+\begin{align*}
+	\omega_0 & = \frac{\omega_1 d\omega_{min}}{d\omega_{max}}\\
+        N_l=N_r& =log\left(\frac{\omega_1}{\omega_0}\right) \frac{\omega_1}{d\omega_{max}}
+\end{align*}
+Note that hereby we made the logarithmic grid region symmetric around the center point.
 
 \section{Fundamental and special grid regions}\label{sec:fundamental_and_special_grid_regions}
 \index{Fundamental grid regions}
 \index{Special grid regions}
+As it was explained in the begining of this chapter, the base grid region defines the outer boundaries of the multigrid. A grid region which is added to the multigrid after the base grid region is called fundamental grid region (FGR). The selection and cutting procedure will remove all overlaps between the FGR (see chapter \ref{chapter:multigrid_selection_and_cutting}. By adding such a FGR, all the grid points of the base grid which lie inside the boundaries of the FGR will be removed and replaced by the grid points of the FGR.
+
+Up to now, the base grid has to be one of the grid regions based on the simple grids: equidistant, tangential or logarithmic. But in principle nothing speaks against making the base grid a multigrid itself. This is achived by letting the basic grid region and the FGR go through the selection and cutting procedure and building a ``multigrid''-like grid which serves as a ``base'' grid for some other grid regions which will be called special grid regions (SGR). The will be specified by replacing the '\texttt{gr}' in the member functions of section \ref{sec:grid_regions} by a '\texttt{sgr}'.
+\begin{lstlisting}[caption={Example for adding special grid regions},label={lst:add_sgr}]
+	multigrid mgrid;
+	mgrid.add_gr_equi(100, -1, 1, 0);
+	mgrid.add_gr_tan(100, 0.2, 0.5, 0.3, 0.01);
+	mgrid.add_gr_log(100, 100, 0.4, 0.7, 0.6, 1E-6, "gr");
+	mgrid.add_sgr_equi(0.5, 0.8, 0.001);
+	mgrid.create();
+\end{lstlisting}
+Listing \ref{lst:add_sgr} is exactly the same as listing \ref{lst:add_gr} but with an additional adding of a special equidistant grid region from $0.5$ to $0.8$ with resolution $0.001$. (Note, that we used one of the wrapper functions from section \ref{subsec:wrapper} here.) This SGR will just ``bump away'' most parts of the logarithmic grid region, even thought its maximal resolution ($10^{-6})$ is much higher than the one of the SGR ($10^{-4}$). Therefore one can use SGR for ``tricking'' the selection and cutting precedure to some extent. It is needless to say, that if you add multiple SGR they will also run through a selection and cutting precedure. The resulting multigrid of listing \ref{lst:add_sgr} is shown in figure \ref{fig:example_add_sgr}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{pics/example_add_sgr.eps}
+	\caption{Multigrid corresponding to listing \ref{lst:add_sgr}}
+	\label{fig:example_add_sgr}
+\end{figure}
+
