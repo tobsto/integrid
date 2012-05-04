@@ -54,21 +54,23 @@ Insert into (\ref{eqn:app_loggrid_boundary_condition_4_1}):
 \]
 \section{Maximal resolution}
 \label{sec:app_loggrid_max_resolution}
-The maximal resolution of the exponential grid regions to the left (region I), $d\omega_{max}^{l}$ and to the right (region III), $d\omega_{max}^{r}$ of the center point in a logarithmic grid reads
+The maximal resolution of the exponential grid regions to the left (region I), $d\omega_{min}^{l}$ and to the right (region III), $d\omega_{min}^{r}$ of the center point in a logarithmic grid reads
 \begin{align*}
-	d\omega_{max}^{l} & = \omega(N_l-1)-\omega(N_l-2) \notag \\
+	d\omega_{min}^{l} & = \omega(N_l-1)-\omega(N_l-2) \notag \\
 	& = -\exp(-c_1(N_l-1-i_1))+exp(-c_1(N_l-2-1_1)) \notag \\
 	& = \exp(-c_1(N_l-1-i_1))(e^{c_1}-1)
 \end{align*}
 analogously we have
 \begin{align*}
-	d\omega_{max}^{r} & = \omega(N_l+N_k+1)-\omega(N_l+N_k) \notag \\
+	d\omega_{min}^{r} & = \omega(N_l+N_k+1)-\omega(N_l+N_k) \notag \\
 	& = \exp(-c_2 i_2)(e^{c_2}-1)
 \end{align*}
-The resolution of the linear grid (region II) will be the maximum of both
+The resolution of the linear grid (region II) will be the minimum of both
 \[
-	d\omega_k = max( d\omega_{max}^{l} ,\,d\omega_{max}^{r})
+	d\omega_k = min( d\omega_{min}^{l} ,\,d\omega_{min}^{r})
 \]
+\chapter{Calculation of cutting points}\label{chapter:app_cutting_points}
+\index{Cutting points}
 
 
 

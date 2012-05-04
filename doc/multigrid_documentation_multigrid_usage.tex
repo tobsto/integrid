@@ -35,7 +35,7 @@ In this chapter we will introduce the notion of a grid region. We will assume, t
 	\label{tab:grid_region_defining_members}
 \end{table}
 
-It obvious, that a possible cutting point can not be arbitrary narrow to the center point $\omega_c$. For example in the loggrid case, for numerical reasons at least three point of the exponential grid regions must survive in order to have a starting, an intermediate and an endpoint of the grid. Also the corresponding weights should not be smaller than the machine precision. Therefore one introduces a buffer region around $\omega_c$ which is defined by its upper and lower boundaries $\omega_+$ and $\omega_-$. In section \ref{sec:cutting_procedure} we will see, that in order to calculate the cutting point according to the grid point density (grid resolution) the maximal grid resolution on both sides of the center point $d\omega_{min}^l$ and $d\omega_{min}^r$ is necessary. Hereby we assume that the grid point density is monotonically increasing from the boundaries towards the center of the grid region. (This is true for all three kinds of grids from chapter \ref{chapter:simple_grids}). Table \ref{tab:grid_region_derived_members} shows the relevant derived properties of the grid region class, i.e. they are calculated directly out of the defining properties.
+It obvious, that a possible cutting point can not be arbitrary narrow to the center point $\omega_c$. For example in the loggrid case, for numerical reasons at least three point of the exponential grid regions must survive in order to have a starting, an intermediate and an endpoint of the grid. Also the corresponding weights should not be smaller than the machine precision. Therefore one introduces a buffer region around $\omega_c$ which is defined by its upper and lower boundaries $\omega_+$ and $\omega_-$. In section \ref{sec:cutting_procedure} we will see, that in order to calculate the cutting point according to the grid point density (grid resolution) the maximal grid resolution on both sides of the center point $d\omega_l$ and $d\omega_r$ is necessary. Hereby we assume that the grid point density is monotonically increasing from the boundaries towards the center of the grid region. (This is true for all three kinds of grids from chapter \ref{chapter:simple_grids}). Table \ref{tab:grid_region_derived_members} shows the relevant derived properties of the grid region class, i.e. they are calculated directly out of the defining properties.
 \begin{table}[h]
 	\begin{center}
 		\begin{tabular}{ll}
@@ -43,8 +43,8 @@ It obvious, that a possible cutting point can not be arbitrary narrow to the cen
 		\hline
 		$\omega_+$  & Upper boundary of the buffer region around $\omega_c$ \\
 		$\omega_-$  & Lower boundary of the buffer region around $\omega_c$ \\
-		$d\omega_{min}^l$  & Maximal resolution left to $\omega_c$ \\
-		$d\omega_{min}^r$  & Maximal resolution right to $\omega_c$ \\
+		$d\omega_l$  & Maximal resolution left to $\omega_c$ \\
+		$d\omega_r$  & Maximal resolution right to $\omega_c$ \\
 		\end{tabular}
 	\end{center}
 	\caption{Relevant derived properties of the grid region}
@@ -64,8 +64,8 @@ Note that there are actually more member variables. But since they we will never
 		\texttt{type} & \texttt{'equi'} & \texttt{'tan'} & \texttt{'log'} \\
 		$\omega_+$         & $\omega_c+3d\omega$ & $\omega_c+3c\Delta u$ & $\omega(i=N_l+N_k+3)$ \\
 		$\omega_-$         & $\omega_c-3d\omega$ & $\omega_c-3c\Delta u$ & $\omega(i=N_l-3)$  \\
-		$d\omega_{min}^l$  & $d\omega$ & $c\Delta u$ & see Appendix \ref{sec:app_loggrid_max_resolution} \\
-		$d\omega_{min}^r$  & $d\omega$ & $c\Delta u$ & see Appendix \ref{sec:app_loggrid_max_resolution} \\
+		$d\omega_l$  & $d\omega$ & $c\Delta u$ & see Appendix \ref{sec:app_loggrid_max_resolution} \\
+		$d\omega_r$  & $d\omega$ & $c\Delta u$ & see Appendix \ref{sec:app_loggrid_max_resolution} \\
 		\end{tabular}
 	\end{center}
 	\caption{Relation of grid class and grid region member variables}
