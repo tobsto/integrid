@@ -13,4 +13,4 @@ pdf: multigrid_documentation.pdf multigrid_documentation_*.tex multigrid_documen
 	dvips -o multigrid_documentation.ps multigrid_documentation.dvi
 	ps2pdf multigrid_documentation.ps
 clean:
-	rm -f *.out *.aux *.log *.backup *.toc *~ *.ps *.dvi *.bbl *.blg *.idx *.ilg *.ind
+	rm -f *.out *.aux *.log *.bak *.backup *.toc *~ *.ps *.dvi *.bbl *.blg *.idx *.ilg *.ind

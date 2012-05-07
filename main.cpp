@@ -12,6 +12,7 @@
 #include<limits>
 #include"grid.h"
 #include"multigrid.h"
+#include"mesh.h"
 
 using namespace std;
 
@@ -105,17 +106,19 @@ int main(int argc, char * argv[])
 	// ********* Example for adding a GR *************
 	// ***********************************************
 	// ***********************************************
+	/*
 	multigrid mgrid;
 	mgrid.add_gr_equi(100, -1, 1, 0);
 	mgrid.add_gr_tan(100, 0.2, 0.5, 0.3, 0.01);
 	mgrid.add_gr_log(100, 100, 0.4, 0.7, 0.6, 1E-6, "gr");
 	mgrid.create();
 	saveGrid(mgrid, "output/example_adding_gr.dat");
+	*/
 
 	/*
 	// ***********************************************
 	// ***********************************************
-	// ********* Example for replaceing a GR *********
+	// ********* Example for replacing a GR **********
 	// ***********************************************
 	// ***********************************************
 	multigrid mgrid;
@@ -146,8 +149,11 @@ int main(int argc, char * argv[])
 
 	
 	
-	/*
-	// mesh: multigrid without inverse mapping
+	// ***********************************************
+	// ***********************************************
+	// ********* Example for a MESH ******************
+	// ***********************************************
+	// ***********************************************
 	mesh amesh;
 	amesh.add_gr_equi(10, 0.0, 1, 0.5);
 	amesh.add_gr_log(0.75, 0.1, 1E-1, 1E-2);
@@ -156,11 +162,12 @@ int main(int argc, char * argv[])
 	{
 		amesh.add_spoint(0.6+j/100.0);
 	}
-	amesh.add_spoint(0.101);
-	amesh.add_spoint(0.199);
 	amesh.add_lendpoint(0.15);
 	amesh.add_rendpoint(0.85);
 	amesh.create();
+
+	amesh.testMonotony();
+	amesh.testWeights();
 	
 	ofstream out;
 	out.open("output/mesh.dat");
@@ -169,6 +176,6 @@ int main(int argc, char * argv[])
 		out << i << "\t" << amesh.omega[i] << endl;
 	}
 	out.close();
-	*/
+
 }
 

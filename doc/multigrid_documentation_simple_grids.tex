@@ -42,6 +42,10 @@ with $i\in {0,\dots,M}$ and $\omega(M)=\omega_{max}$. Beside the grid class attr
 \[
 	i(\omega)=\frac{\omega-\omega_{min}}{d\omega}
 \]
+The point density reads
+\begin{equation}\label{eqn:equigrid_grid_point_density}
+ \frac{di}{d\omega} (\omega) = \frac{1}{d\omega}
+\end{equation}
 The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its defining member variable are listed in table \ref{tab:equigrid_defining_members}.
 
 \begin{table}[h]
@@ -89,9 +93,10 @@ The index function, i.e.~the inverse of the grid is given by
 	i(\omega)=\frac{1}{\Delta u}\left(\arctan\left(\frac{\omega-\omega_c}{c}\right)-u_1\right)
 \]
 The point density reads
-\[
+\begin{equation}\label{eqn:tangrid_grid_point_density}
  \frac{di}{d\omega} (\omega) = \frac{1}{c \Delta u\left(1+\left(\frac{\omega-\omega_c}{c}\right)^2\right)}
-\]
+\end{equation}
+
 The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its defining member variable are listed in table \ref{tab:tangrid_defining_members}.
 
 \begin{table}[h]
@@ -146,13 +151,14 @@ determine the four parameters $i_1$, $i_2$, $c_1$ and $c_2$ (see Appendix \ref{s
 	\end{cases}
 \]
 and the grid point density reads
-\[
+\begin{equation}\label{eqn:loggrid_grid_point_density}
 	\frac{di(\omega)}{d\omega}=\begin{cases}
 		\frac{1}{c_1(\omega_k-\omega)} \quad &\text{for } \omega\in[\omega_{min},\omega_k-\omega_0) \\
 		\frac{1}{d\omega_k} \quad &\text{for } \omega\in[\omega_k-\omega_0,\omega_k+\omega_0) \\
 		\frac{1}{c_2(\omega-\omega_k)}  \quad &\text{for } \omega\in[\omega_k+\omega_0, \omega_{max}]
 	\end{cases}
-\]
+\end{equation}
+
 The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its defining member variable are listed in table \ref{tab:loggrid_defining_members}.
 
 \begin{table}[h]
@@ -182,7 +188,7 @@ loggrid loggrid(N_l, N_r, omega_min, omega_max, omega_k, omega_0);
 \index{tangrid}
 \index{loggrid}
 
-All the above grids are derived from the base class \texttt{grid}. Therefore it is possible to write an function which performs the numerical integration without specifing the type of grid one wants to use:
+All the above grids are derived from the base class \texttt{grid}. Therefore it is possible to write an function which performs the numerical integration without specifying the type of grid one wants to use:
 \begin{lstlisting}
 double integrate(double (&f)(double), grid & g)
 {

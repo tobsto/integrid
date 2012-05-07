@@ -1668,13 +1668,13 @@ int getIntersection(gridRegion & grl, gridRegion & grr)
 			// but outside of the right grid's boundaries there may be space for an implementation of the left grid
 			if (grl.omega_p<=grr.omega_l)
 			{
-				//cout << "\t + case D-1" << endl;
+				//cout << "\t + case E-1" << endl;
 				omegas=grr.omega_l;
 			}
 			// if there is not enough space, skip the left grid
 			else
 			{
-				//cout << "\t + case D-2" << endl;
+				//cout << "\t + case E-2" << endl;
 				return 1;
 			}
 		}
@@ -1683,13 +1683,13 @@ int getIntersection(gridRegion & grl, gridRegion & grr)
 			// but outside of the left grid's boundaries there may be space for an implementation of the right grid
 			if (grr.omega_m>=grl.omega_r)
 			{
-				//cout << "\t + case E-1" << endl;
+				//cout << "\t + case F-1" << endl;
 				omegas=grl.omega_r;
 			}
 			// if there is not enough space, skip the right grid
 			else
 			{
-				//cout << "\t + case E-2" << endl;
+				//cout << "\t + case F-2" << endl;
 				return 2;
 			}
 		}
@@ -1697,17 +1697,17 @@ int getIntersection(gridRegion & grl, gridRegion & grr)
 	// case B, maximal resolution of the left grid is to small -> skip it
 	if (omegas<grl.omega_p && omegas >= grr.omega_l)
 	{
-		// case F: intersection point is inside BOTH puffer-regions, skip the grid with the lower maximal resolution
+		// case D: intersection point is inside BOTH puffer-regions, skip the grid with the lower maximal resolution
 		if (omegas>grr.omega_m && omegas <= grl.omega_r)
 		{
 			if(grr.domega_min_l<grl.domega_min_r)
 			{
-				//cout << "\t + case F-1" << endl;
+				//cout << "\t + case D-1" << endl;
 				return 1;
 			}	
 			else
 			{
-				//cout << "\t + case F-2" << endl;
+				//cout << "\t + case D-2" << endl;
 				return 2;
 			}	
 		}
@@ -1717,19 +1717,19 @@ int getIntersection(gridRegion & grl, gridRegion & grr)
 			return 1;
 		}
 	}
-	// case D, there is no intersection point because left grid resolution is to small,
+	// case E, there is no intersection point because left grid resolution is to small,
 	else if (omegas<grr.omega_l)
 	{
 		// but outside of the right grid's boundaries there may be space for an implementation of the left grid
 		if (grl.omega_p<=grr.omega_l)
 		{
-			//cout << "\t + case D-1" << endl;
+			//cout << "\t + case E-1" << endl;
 			omegas=grr.omega_l;
 		}
 		// if there is not enough space, skip the left grid
 		else
 		{
-			//cout << "\t + case D-2" << endl;
+			//cout << "\t + case E-2" << endl;
 			return 1;
 		}
 	}
@@ -1739,19 +1739,19 @@ int getIntersection(gridRegion & grl, gridRegion & grr)
 		//cout << "\t + case C" << endl;
 		return 2;
 	}
-	// case E, there is no intersection point because right grid resolution is to small,
+	// case F, there is no intersection point because right grid resolution is to small,
 	else if (omegas>grl.omega_r)
 	{
 		// but outside of the left grid's boundaries there may be space for an implementation of the right grid
 		if (grr.omega_m>=grl.omega_r)
 		{
-			//cout << "\t + case E-1" << endl;
+			//cout << "\t + case F-1" << endl;
 			omegas=grl.omega_r;
 		}
 		// if there is not enough space, skip the right grid
 		else
 		{
-			//cout << "\t + case E-2" << endl;
+			//cout << "\t + case F-2" << endl;
 			return 2;
 		}
 	}
@@ -1993,10 +1993,10 @@ void multigrid::create()
 	{
 		//cout << endl;
 		//cout << "List of grid regions: " << endl;
-		for (int n=0; n<tfgridRegions.size(); n++)
-		{
+		//for (int n=0; n<tfgridRegions.size(); n++)
+		//{
 			//cout << scientific << setprecision(5) <<  n << "\t" << tfgridRegions[n].type <<  "\tfrom\t" << tfgridRegions[n].omega_l <<"\tover\t" <<  tfgridRegions[n].omega_c <<"\tto\t" <<  tfgridRegions[n].omega_r  <<"\twith\t" <<  tfgridRegions[n].domega_min_l<<"\tand\t" <<  tfgridRegions[n].domega_min_r << endl;
-		}
+		//}
 
 		skipflag=false;
 		// make a copy of tfgridRegions for the case that a region is decided to be skipped and therefore all regions
@@ -2099,10 +2099,10 @@ void multigrid::create()
 	{
 		//cout << endl;
 		//cout << "List of grid regions: " << endl;
-		for (int n=0; n<tsgridRegions.size(); n++)
-		{
+		//for (int n=0; n<tsgridRegions.size(); n++)
+		//{
 			//cout << scientific << setprecision(5) <<  n << "\t" << tsgridRegions[n].type <<  "\tfrom\t" << tsgridRegions[n].omega_l <<"\tover\t" <<  tsgridRegions[n].omega_c <<"\tto\t" <<  tsgridRegions[n].omega_r  <<"\twith\t" <<  tsgridRegions[n].domega_min_l<<"\tand\t" <<  tsgridRegions[n].domega_min_r << endl;
-		}
+		//}
 
 		skipflag=false;
 		// make a copy of tsgridRegions for the case that a region is decided to be skipped and therefore all regions

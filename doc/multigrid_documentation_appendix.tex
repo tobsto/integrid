@@ -69,8 +69,128 @@ The resolution of the linear grid (region II) will be the minimum of both
 \[
 	d\omega_k = min( d\omega_{min}^{l} ,\,d\omega_{min}^{r})
 \]
-\chapter{Calculation of cutting points}\label{chapter:app_cutting_points}
+\chapter{Cutting grid regions}\label{chapter:app_cutting}
 \index{Cutting points}
+\section{Calculation of cutting points}\label{sec:app_cutting_points}
+In this section we will calculate the points of equal grid point density $\omega_s$ between two grid of equidistant, tangential and logarithmic type. We will use the corresponding equations for the grid point density of these grid types, i.e.~equations \ref{eqn:equigrid_grid_point_density}, \ref{eqn:tangrid_grid_point_density} and \ref{eqn:loggrid_grid_point_density} in order to solve equation \ref{eqn:cutting_point}. We will go through all possible combinations for the left and right grid region, where we denote the left grid region parameters by a superscript $l$ and the right grid region parameter by a superscript $r$.
+\begin{enumerate}
+	\item {\bf loggrid/loggrid}:
+		\begin{align*}
+			\frac{1}{c_2^l(\omega_s-\omega_k^l)}\stackrel{!}{=}\frac{1}{c_1^r(\omega_k^r-\omega_s)}
+		\end{align*}
+		\[
+		 	\Rightarrow \boxed{\omega_s=\frac{c_2^l\omega_k^l + c_1^r\omega_k^r}{c_2^l+c_1^r}}
+		\]
+
+	\item {\bf loggrid/tangrid}:
+		\begin{align*}
+			&\frac{1}{c_2^l(\omega_s-\omega_k^l)}\stackrel{!}{=}\frac{1}{c^r\Delta u^r\left(1+\left(\frac{\omega_s-\omega_c^r}{c^r}\right)^2\right)}\\
+			&\Leftrightarrow c_2^l(\omega_s-\omega_k^l) = c^r \Delta u^r + \frac{\Delta u^r}{c^r} (\omega_s-\omega_c^r)^2\\
+			&\Leftrightarrow \omega_s^2 - \left(2\omega_c^r + \frac{c^r c_2^l}{\Delta u^r}\right) \omega_s + \left((\omega_c^{r})^2 + (c^r)^2 + \frac{c^r c_2^l}{\Delta u^r} \omega_k^l \right) =0
+		\end{align*}
+		\[
+		 	\Rightarrow \boxed{\omega_s= \omega_c^r + \frac{c^r c_2^l}{2 \Delta u^r} - \sqrt{\underbrace{\left(\omega_c^r + \frac{c^r c_2^l}{2 \Delta u^r}\right)^2 - (\omega_c^{r})^2 - (c^r)^2 - \frac{c^r c_2^l}{\Delta u^r} \omega_k^l }_{<0 \text{ if no solution to \ref{eqn:cutting_point} exists}}}}
+		\]
+	\item {\bf tangrid/loggrid}:
+		\begin{align*}
+			&\frac{1}{c^l\Delta u^l\left(1+\left(\frac{\omega_s-\omega_c^l}{c^l}\right)^2\right)}\stackrel{!}{=}\frac{1}{c_1^r(\omega_k^r-\omega_s)}
+		\end{align*}
+		\[
+		 	\Rightarrow \boxed{\omega_s= \omega_c^r - \frac{c^l c_1^r}{2 \Delta u^l} + \sqrt{\underbrace{\left(\omega_c^l + \frac{c^l c_1^r}{2 \Delta u^l}\right)^2 - (\omega_c^{l})^2 - (c^l)^2 + \frac{c^l c_1^r}{\Delta u^l} \omega_k^r }_{<0 \text{ if no solution to \ref{eqn:cutting_point} exists}} }}
+		\]
+	\item {\bf tangrid/tangrid}:
+		\begin{align*}
+			&\frac{1}{c^l\Delta u^l\left(1+\left(\frac{\omega_s-\omega_c^l}{c^l}\right)^2\right)}\stackrel{!}{=}\frac{1}{c^r\Delta u^r\left(1+\left(\frac{\omega_s-\omega_c^r}{c^r}\right)^2\right)}\\
+			&\Leftrightarrow c^l\Delta u^l + \frac{\Delta u^l}{c^l}(\omega_s - \omega_c^l)^2 - c^r \Delta u^r - \frac{\Delta u^r}{c^r}(\omega_s - \omega_c^r)^2 = 0 \\
+			&\Leftrightarrow \left( \frac{\Delta u^l}{c^l} - \frac{\Delta u^r}{c^r}\right) \omega_s^2 - \left( \frac{2\Delta u^l \omega_c^l}{c^l} - \frac{2 \Delta u^r \omega_c^r}{c^r} \right) \omega_s + \frac{\Delta u^l}{c^l}(\omega_c^l)^2 - \frac{\Delta u^r}{c^r}(\omega_c^r)^2 + c^l\Delta u^l c^r \Delta u^r = 0\\
+			&\Leftrightarrow \omega_s^2 - \underbrace{\biggl(\frac{2\Delta u^l \omega_c^l c^r}{\Delta u^l c^r - \Delta u^r c^l} - \frac{2\Delta u^r \omega_c^r c^l}{\Delta u^l c^r - \Delta u^r c^l} \biggr)}_{:=p} \omega_s + \underbrace{\biggl(\frac{c^r \Delta u^l (\omega_c^l)^2 - c^l \Delta u^r (\omega_c^r)^2 + \Delta u^l c^r (c^l)^2 - \Delta u^r c^l (c^r)^2}{\Delta u^l c^r - \Delta u^r c^l}\biggr)}_{:=q}=0
+		\end{align*}
+		\[
+			\Rightarrow \boxed{\omega_s= \frac{p}{2} \pm \sqrt{\underbrace{\frac{p^2}{4}-q}_{\stackrel{<0 \text{ if no solution}}{\text{to \ref{eqn:cutting_point} exists} } } }}
+		\]
+		Where the plus or minus sign is chosen such, that $\omega_s$ lies inside $[\omega_c^l, \omega_c^r]$.
+
+	\item {\bf loggrid/equigrid}:
+		\begin{align*}
+			\frac{1}{c_2^l(\omega_s-\omega_k^l)}\stackrel{!}{=}\frac{1}{d\omega^r}
+		\end{align*}
+		\[
+			\Rightarrow \boxed{\omega_s= \omega_k^l + \frac{d\omega^r}{c_2^l}}
+		\]
+	\item {\bf equigrid/loggrid}:
+		\begin{align*}
+			\frac{1}{d\omega^l}\stackrel{!}{=}\frac{1}{c_1^r(\omega_k^r-\omega_s)}
+		\end{align*}
+		\[
+			\Rightarrow \boxed{\omega_s= \omega_k^r - \frac{d\omega^l}{c_1^r}}
+		\]
+	\item {\bf tangrid/equigrid}:
+		\begin{align*}
+			\frac{1}{c^l\Delta u^l\left(1+\left(\frac{\omega_s-\omega_c^l}{c^l}\right)^2\right)}\stackrel{!}{=}\frac{1}{d\omega^r}
+		\end{align*}
+		\[
+			\Rightarrow \boxed{\omega_s= \omega_c^l + c^l \sqrt{\underbrace{\frac{d\omega^r}{c^l\Delta u^l} -1}_{\stackrel{<0 \text{ if no solution}}{\text{to \ref{eqn:cutting_point} exists} } }}}
+		\]
+	\item {\bf equigrid/tangrid}:
+		\begin{align*}
+			\frac{1}{d\omega^l}\stackrel{!}{=}\frac{1}{c^r\Delta u^r\left(1+\left(\frac{\omega_s-\omega_c^r}{c^r}\right)^2\right)}
+		\end{align*}
+		\[
+			\Rightarrow \boxed{\omega_s= \omega_c^r - c^r \sqrt{\underbrace{\frac{d\omega^l}{c^r\Delta u^r} -1}_{\stackrel{<0 \text{ if no solution}}{\text{to \ref{eqn:cutting_point} exists} } }}}
+		\]
+	\item {\bf equigrid/equigrid}:
+		\begin{align*}
+			\frac{1}{d\omega^l}\stackrel{!}{=}\frac{1}{d\omega^r}
+		\end{align*}
+		\[
+			\Rightarrow 
+			\boxed{\omega_s= \begin{cases}
+							\omega_l^r \quad \text{ if } d\omega^r \leq d\omega^l \\
+							\omega_r^l \quad \text{ if } d\omega^r > d\omega^l
+			                             \end{cases}
+			}
+		\]
+\end{enumerate}
+
+
+\section{Adjust grid region parameters}\label{sec:app_cutting_gr}
+After a cutting point according to section \ref{sec:cutting_procedure} is found. The left or right part of a grid region will be cut. The cutting point $\omega_s$ must be in the interval $[\omega_l, \omega_-]$ for cutting the left part of a grid region an in the interval $[\omega_+, \omega_r]$ for cutting the right part of a grid region. In the following we will show how the corresponding grid region parameters must be altered in order to preserve the maximal grid resolution. 
+\begin{enumerate}
+	\item {\bf loggrid}, cut left
+	\begin{align*}
+		N_l&\to\frac{1}{c_1} \log\left(\frac{\omega_k -\omega_s}{\omega_0}\right) \\
+		\omega_l&\to\omega_s
+	\end{align*}
+	\item {\bf loggrid}, cut right
+	\begin{align*}
+		N_r&\to\frac{1}{c_2} \log\left(\frac{\omega_s -\omega_k}{\omega_0}\right) \\
+		\omega_r&\to\omega_s
+	\end{align*}
+	\item {\bf tangrid}, cut left
+	\begin{align*}
+                 M&\to\frac{1}{\Delta u} \arctan \left( \frac{\omega_r-\omega_c}{c} \right)-\arctan \left( \frac{\omega_s-\omega_c}{c} \right)\\
+		\omega_l&\to\omega_s
+	\end{align*}
+	\item {\bf tangrid}, cut right
+	\begin{align*}
+                 M&\to\frac{1}{\Delta u} \arctan \left( \frac{\omega_s-\omega_c}{c} \right)-\arctan \left( \frac{\omega_l-\omega_c}{c} \right)\\
+		\omega_r&\to\omega_s
+	\end{align*}
+	\item {\bf equigrid}, cut left
+	\begin{align*}
+                 M&\to\frac{\omega_r-\omega_s}{\omega_r-\omega_l} M\\
+		\omega_l&\to\omega_s
+	\end{align*}
+	\item {\bf equigrid}, cut right
+	\begin{align*}
+                 M&\to\frac{\omega_s-\omega_l}{\omega_r-\omega_l} M\\
+		\omega_l&\to\omega_s
+	\end{align*}
+\end{enumerate}
+Note, that all the grid point numbers $N_l$, $N_r$, $M$, $\dots$ are chosen to be at least $3$ for numerical reasons. This is in accordance this the choice of the buffer regions for the grid regions (see \ref{tab:grid_region_types}).
+
+
+
 
 
 
