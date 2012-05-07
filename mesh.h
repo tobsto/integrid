@@ -40,7 +40,9 @@ class mesh
 	void add_lendpoint(double omegal);
 	void add_rendpoint(double omegar);
 	void create();
+	// for testing purposes
 	void testWeights();
+	void testMonotony();
 
 	// wrapper for multigrid member functions
 	void add_gr_equi(int N, double omega_min, double omega_max, double omega_c);

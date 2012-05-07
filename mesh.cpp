@@ -25,6 +25,41 @@
 
 using namespace std;
 
+void mesh::testMonotony()
+{
+	for (int j=0; j<=M-1; j++)
+	{
+		if (omega[j+1]<omega[j])
+		{
+			cerr << endl;
+			cerr << "Error. Keine Monotonie im Integrationsgitter." << endl;
+			cerr << "j: " << j <<  endl;	
+			throw 1;
+		}
+		if (omega[j+1]==omega[j])
+		{
+			cerr << endl;
+			cerr << "Error. Keine Strenge Monotonie im Integrationsgitter." << endl;
+			cerr << "j: " << j <<  endl;	
+			throw 1;
+		}
+	}
+}
+void mesh::testWeights()
+{
+	for (int j=0; j!=this->M+1; j++)
+	{
+		if (this->domega[j]<=numeric_limits<double>::epsilon())
+		{
+			cerr << endl;
+			cerr << "ERROR: test mesh weights: Smallest grid difference is beyond machine precision ("<< numeric_limits<double>::epsilon()<<") at: j=" << j ;
+			cerr << " , domega= " << scientific << setprecision(15)  << this->domega[j] << endl;
+			cerr << "Break." << endl;
+			throw 1;
+		}
+	}
+}
+
 mesh::mesh()
 {
 	this->lendpoint=false;
@@ -244,27 +279,14 @@ void mesh::create()
 	// trapez rule
 	this->M=this->omega.size()-1;
 	this->domega.resize(this->omega.size());
-	for (int j=1; j<this->M-1; j++)
+	for (int j=1; j<this->M; j++)
 	{
 		this->domega[j]=0.5*(this->omega[j+1]-this->omega[j-1]);	
 	}
 	this->domega[      0]=0.5*(this->omega[      1]-this->omega[        0]);	
 	this->domega[this->M]=0.5*(this->omega[this->M]-this->omega[this->M-1]);	
 }
-void mesh::testWeights()
-{
-	for (int j=0; j!=this->M+1; j++)
-	{
-		if (this->domega[j]<=numeric_limits<double>::epsilon())
-		{
-			cerr << endl;
-			cerr << "ERROR: test multigrid weights: Smallest grid difference is beyond machine precision at: j=" << j ;
-			cerr << " , domega= " << scientific << setprecision(15)  << omega[j] << endl;
-			cerr << "Break." << endl;
-			throw 1;
-		}
-	}
-}
+
 
 // wrapper for multigrid member functions
 
