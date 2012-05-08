@@ -2,11 +2,11 @@
 \section{Numerical Integration - Trapezoidal rule}
 \index{Trapezoidal rule}
 \index{Weights}
-In this chapter, we will briefly review the concepts of numerical integration in one dimension. Consider integral over some function $f(\omega)$
+In this chapter, we will briefly review the concepts of numerical integration in one dimension. Consider an integral over some function $f(\omega)$
 \begin{equation}
 	I=\int_a^b d\omega f(\omega)
 \end{equation}
-For numerical calculation one has to discretize the interval of integration $[a,b]$:
+For the numerical calculation of this integral one has to discretize the interval of integration $[a,b]$:
 \[
 	\omega \to \omega(i) \quad;\quad i\in\{0,\dots,M\}\quad\text{and}\quad \omega(0)=a,\quad \omega(M)=b.
 \]
@@ -39,13 +39,13 @@ therefore the weights are given by
 
 \section{Interpolation - Inverse mapping}\index{Interpolation}
 \index{Inverse mapping}
-In order to calculate a function $f$ which is known on a given grid $\omega(i)$, on another grid $\epsilon(i)$ we need to interpolate. We restrict ourselves to linear interpolation and we further assume, that the inverse mapping of the first grid
+In order to calculate a function $f$ which is known on a given grid $\omega(i)$, on another grid $\epsilon(i)$ one needs to interpolate. We restrict ourselves to linear interpolation and we further assume, that the inverse mapping of the first grid
 \[
 	i(\omega):\;\mathbbm{R}\to\mathbbm{N}:\quad \omega \mapsto i\quad\quad;\;\omega\in[\omega(0), \omega(M)]
 \]
 is known.
 
-The interpolation is then done in the following way. For each point of the new grid $\epsilon(j)\equiv \epsilon_j$ one calculates the inverse of the old grid $I=i(\epsilon_j)$. The corresponding old grid point $\omega(I)\equiv \omega_i$ is then the nearest grid point to the interpolation point $\epsilon_j$ (Figure~\ref{fig:interpolation}). 
+The interpolation is then done in the following way. For each point of the new grid $\epsilon(j)\equiv \epsilon_j$ one calculates the inverse of the old grid $I=i(\epsilon_j)$. The corresponding old grid point $\omega(I)\equiv \omega_I$ is then the nearest grid point to the interpolation point $\epsilon_j$ (Figure~\ref{fig:interpolation}). 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.4\textwidth]{pics/interpolation.eps}
@@ -53,7 +53,7 @@ The interpolation is then done in the following way. For each point of the new g
 	\label{fig:interpolation}
 \end{figure}
 
-The value of the function on the new grid $f(\epsilon_j)$ is then obtained by linear interpolation between the old grid point $\omega_I$ and its nearest neighbor (right neighbor for $\omega_I\leq\epsilon_j$, left neighbor for $\omega_I>\epsilon_j$).
+The value of the function on a point $\epsilon_j$ of the new grid $f(\epsilon_j)$ is then obtained by linear interpolation between the old grid point $\omega_I$ and its nearest neighbor (right neighbor for $\omega_I\leq\epsilon_j$, left neighbor for $\omega_I>\epsilon_j$).
 \[
 	f(\epsilon_j)=\begin{cases}
 		f(\omega_I)+\frac{f(\omega_{I+1})-f(\omega_{I})}{\omega_{I+1}-\omega_{I}} (\epsilon_j-\omega_I) \quad \text{for } \omega_I<\epsilon_j \\

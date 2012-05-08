@@ -28,7 +28,7 @@ void saveGrid(grid & mgrid, string filename)
         out.close();
 }
 \end{lstlisting}
-And this is the whole purpose of using a virtual base grid class. In the following we will introduce all kinds of available grids.
+This function can then take any kind of grid class (as long as it is derived from the basic grid class) as an argument. This is the whole purpose of using a virtual base grid class. In the following we will introduce all kinds of available grids.
 
 \section{Equidistant grid: equigrid}\label{sec:equigrid}
 \index{Grid!equidistant}
@@ -38,16 +38,15 @@ The simplest grid class is the equidistant grid class. It is called \texttt{equi
 \[
 	\omega(i) = \omega_{min} + d\omega \cdot i
 \]
-with $i\in {0,\dots,M}$ and $\omega(M)=\omega_{max}$. Beside the grid class attributes (table \ref{tab:member}), the equigrid has only one additional variable: the grid resolution $d\omega$. The index function, which is the inverse of $\omega(i)$ is given by
+with $i\in {0,\dots,M}$ and $\omega(M)=\omega_{max}$. Beside the grid class attributes (table \ref{tab:member}), the equigrid has only one additional variable: the grid resolution $d\omega$. The inverse of $\omega(i)$ is given by
 \[
 	i(\omega)=\frac{\omega-\omega_{min}}{d\omega}
 \]
-The point density reads
+The grid point density reads
 \begin{equation}\label{eqn:equigrid_grid_point_density}
  \frac{di}{d\omega} (\omega) = \frac{1}{d\omega}
 \end{equation}
 The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its defining member variable are listed in table \ref{tab:equigrid_defining_members}.
-
 \begin{table}[h]
 	\begin{center}
 		\begin{tabular}{llp{3cm}l}
@@ -62,7 +61,7 @@ The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its def
 	\caption{Defining properties of the \texttt{equigrid} class}
 	\label{tab:equigrid_defining_members}
 \end{table}
-An equigrid is created by calling its constructor (see table \ref{tab:equigrid_defining_members}):
+These are also the arguments of the equigrid constructor which is used for creating an instance of an equigrid:
 \begin{lstlisting}
 equigrid egrid(M, omega_min, omega_max);
 \end{lstlisting}
@@ -78,27 +77,26 @@ The tangential grid is called \texttt{tangrid}. Beside the grid class attributes
 	\includegraphics[width=0.3\textwidth]{pics/tangrid.eps}
 \end{center}
 
-\noindent The ``sharpness`` of this curve is controlled by the parameter $c$. The grid is defined by
+\noindent The ``sharpness`` of this curve is controlled by the parameter $c$ and the grid is defined by
 \[
 	\omega(i)= c \tan (u_1+\Delta u \cdot i) + \omega_c
 \]
-where $i\in {0,\dots,M}$, and the parameters $u^0_1$ and $\Delta u$ are calculated such, that boundary conditions $\omega(0)=\omega_{min}$ and $\omega(M)=\omega_{max}$ are fulfilled. Hence
+where $i\in \{0,\dots,M\}$, and the parameters $u^0_1$ and $\Delta u$ are calculated such, that boundary conditions $\omega(0)=\omega_{min}$ and $\omega(M)=\omega_{max}$ are fulfilled. Hence
 \begin{align*}
 	u_1&=\arctan\left(\frac{\omega_{min}-\omega_c}{c}\right)\\
 	u_2&=\arctan\left(\frac{\omega_{max}-\omega_c}{c}\right)\\
 	\Delta u&=\frac{u_2-u_1}{M}
 \end{align*}
-The index function, i.e.~the inverse of the grid is given by
+The inverse of the grid is given by
 \[
 	i(\omega)=\frac{1}{\Delta u}\left(\arctan\left(\frac{\omega-\omega_c}{c}\right)-u_1\right)
 \]
-The point density reads
+and the point density reads
 \begin{equation}\label{eqn:tangrid_grid_point_density}
  \frac{di}{d\omega} (\omega) = \frac{1}{c \Delta u\left(1+\left(\frac{\omega-\omega_c}{c}\right)^2\right)}
 \end{equation}
 
 The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its defining member variable are listed in table \ref{tab:tangrid_defining_members}.
-
 \begin{table}[h]
 	\begin{center}
 		\begin{tabular}{llll}
@@ -115,7 +113,7 @@ The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its def
 	\caption{Defining properties of the \texttt{tangrid} class}
 	\label{tab:tangrid_defining_members}
 \end{table}
-A tangrid is initialized by its constructor (see table \ref{tab:tangrid_defining_members}):
+These are also the arguments of the tangrid constructor which is used for creating an instance of a tangrid:
 \begin{lstlisting}
 tangrid tgrid(M, omega_min, omega_max, omega_c, c);
 \end{lstlisting}
@@ -123,13 +121,13 @@ tangrid tgrid(M, omega_min, omega_max, omega_c, c);
 \section{Logarithmic grid: loggrid}\label{sec:loggrid}
 \index{Grid!logarithmic}
 \index{loggrid}
-To resolve very sharp peaks in the integrand function the logarithmic grid is the right tool. It is named \texttt{loggrid} and it constructed in the following way. There are three grid regions: one below I, one around II and one above III the center point $\omega_k$ with the highest grid point density.\\
+To resolve very sharp peaks in the integrand function the logarithmic grid is the right tool. It is named \texttt{loggrid} and it is constructed in the following way. There are three grid regions: one below I, one around II and one above III the center point $\omega_k$, which is the point with the highest grid point density.\\
 
 \begin{center}
 	\includegraphics[width=0.4\textwidth]{pics/loggrid.eps}
 \end{center}
 
-	Region I and III are exponential and region II is linear. The half width of the linear region $\omega_0$ also defines the ''sharpness`` of the exponential grid regions. The number of grid points in region I, $N_l$ and in region III, $N_r$ can be chosen different from each other. Both will also influence the ''sharpness'' of the exponential grid regions. The resolution of the linear grid region $d\omega_k$ is the same as the maximal resolution in the exponential grid regions and it determines the number of grid points in region II, $N_k$ (see Appendix \ref{sec:app_loggrid_max_resolution}). The grid is defined as
+Region I and III are exponential and region II is linear. The half width of the linear region $\omega_0$ also controls the ''sharpness`` of the exponential grid regions. The number of grid points in region I, $N_l$ and in region III, $N_r$ can be chosen different from each other. Both will also influence the ''sharpness'' of the exponential grid regions. The resolution of the linear grid region $d\omega_k$ is the same as the maximal resolution in the exponential grid regions and it determines the number of grid points in region II, $N_k$ (see Appendix \ref{sec:app_loggrid_max_resolution}). The grid is defined as
 \begin{equation}\label{eqn:loggrid_definition}
 	\omega(i)=\begin{cases}
 		-\exp(-c_1(i-i_1)) + \omega_k 		\quad & i\in\{0,\dots,N_l-1\} \\ 
@@ -160,7 +158,6 @@ and the grid point density reads
 \end{equation}
 
 The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its defining member variable are listed in table \ref{tab:loggrid_defining_members}.
-
 \begin{table}[h]
 	\begin{center}
 		\begin{tabular}{llll}
@@ -178,7 +175,7 @@ The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its def
 	\caption{Defining properties of the \texttt{loggrid} class}
 	\label{tab:loggrid_defining_members}
 \end{table}
-A loggrid is initialized by its constructor (see table \ref{tab:loggrid_defining_members}):
+These are also the arguments of the loggrid constructor which is used for creating an instance of a loggrid:
 \begin{lstlisting}
 loggrid loggrid(N_l, N_r, omega_min, omega_max, omega_k, omega_0);
 \end{lstlisting}
@@ -188,7 +185,7 @@ loggrid loggrid(N_l, N_r, omega_min, omega_max, omega_k, omega_0);
 \index{tangrid}
 \index{loggrid}
 
-All the above grids are derived from the base class \texttt{grid}. Therefore it is possible to write an function which performs the numerical integration without specifying the type of grid one wants to use:
+All of the above grids are derived from the base class \texttt{grid}. Therefore it is possible to write an function which performs the numerical integration without specifying the type of grid one wants to use
 \begin{lstlisting}
 double integrate(double (&f)(double), grid & g)
 {
@@ -200,7 +197,7 @@ double integrate(double (&f)(double), grid & g)
 	return I;
 } 
 \end{lstlisting}
-which can then be uses for example with an equigrid and a Gauss function
+which can then be used for example with an equigrid and a Gauss function
 \begin{lstlisting}
 double gauss(double x)
 {
@@ -208,11 +205,13 @@ double gauss(double x)
 }
 int main()
 {
-	equigrid egrid(100, -4, 4)
-	double I;
-	I=integrate(gauss, egrid);
+        equigrid agrid(100, -4, 4);
+        //tangrid agrid(100, -4, 4, 1, 0.5);
+        //loggrid agrid(30, 30, -4, 4, 1, 0.4);
+        double I=integrate(gauss, agrid);
 }
 \end{lstlisting}
+But one can also change the comments in the code in such a way, that a tangrid or a loggrid is used for the integration of a Gauss function.
 
 
 

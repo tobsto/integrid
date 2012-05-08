@@ -1,5 +1,5 @@
 \chapter{Mesh - Multigrid without Inverse Mapping}
-There might be occasions where the inverse mapping of the multigrid is not needed. The mesh grid class is exactly the same as multigrid class, but without the inverse mapping. All multigrid commands also work for the mesh class. For example 
+There might be occasions where the inverse mapping of the multigrid is not needed. The mesh grid class is exactly the same as the multigrid class, but without the inverse mapping. All multigrid commands also work for the mesh class. For example 
 \begin{lstlisting}
 	mesh mgrid;
 	mgrid.add_gr_equi(100, -1, 1, 0);
@@ -8,10 +8,10 @@ There might be occasions where the inverse mapping of the multigrid is not neede
 	mgrid.add_sgr_equi(0.5, 0.8, 0.001);
 	mgrid.create();
 \end{lstlisting}
-is exactly the same as listing \ref{lst:add_sgr}, except for the first line. Note that the mesh class is not optimized for fast initialization since internally, the mesh \texttt{create} function will call the multigrid \texttt{create} function.
+is exactly the same as listing \ref{lst:add_sgr}, except for the first line. Note that the mesh class is not optimized for fast initialization since internally, the mesh \texttt{create} function will call the multigrid \texttt{create} function, which takes care of all the subgrid indices needed for the inverse mapping.
 
-In comparison with the multigrid, there is only two additional features, which at the same time destroys the possibility of calculating the inverse of a mesh. The first one is the adding of single points inside grid by
-\texttt{add\_spoint}. The second one is the adding of terminating points which serve as the total upper and lower boundary of the mesh by \texttt{add\_lendpoint} for the lower endpoint and \texttt{add\_rendpoint} for the upper endpoint. For example see listing \ref{lst:mesh}.
+In comparison to the multigrid, there are only two additional features, which at the same time destroys the possibility of calculating the inverse of a mesh. The first one is the adding of single points inside grid by
+\texttt{add\_spoint}. The second one is the adding of terminating points which serve as the total upper and lower boundary of the mesh by \texttt{add\_lendpoint} for the lower endpoint and \texttt{add\_rendpoint} for the upper endpoint. Hereby it is possible to cut of a multigrid at arbitrary points for the prize of giving up the possibility of calculating an inverse mapping. Listing \ref{lst:mesh} shows an example for an instance of the mesh class.
 \begin{lstlisting}[caption={Example of a mesh},label={lst:mesh}]
 mesh amesh;
 amesh.add_gr_equi(10, 0.0, 1, 0.5);
@@ -25,4 +25,4 @@ amesh.add_lendpoint(0.15);
 amesh.add_rendpoint(0.85);
 amesh.create();
 \end{lstlisting}
-Note, that a inserted points will always take care of not letting the grid point difference ($\sim$ weights) getting to small (beyond machine precision). This is achieved by skipping all existing points which come to narrow to the inserted point.
+Note, that a inserted points will always take care of not letting the grid point difference ($\sim$ weights) getting to small (beyond machine precision). This is achieved by skipping all existing points which are to narrow to the inserted point.

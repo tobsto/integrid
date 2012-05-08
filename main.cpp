@@ -36,6 +36,19 @@ void saveGrid(grid & mgrid, string filename)
 	}
 	out.close();
 }
+double integrate(double (&f)(double), grid & g)
+{
+	double I=0;
+	(int i=0; i<=mgrid.M; i++)
+	{
+		I+= f(mgrid.omega[i]) * domega[i];
+	}
+	return I;
+} 
+double gauss(double x)
+{
+	return exp(-x*x);
+}
 double lorentz(double omega, double width, double center)
 {
 	return width/(M_PI*(pow(omega-center,2.0)+pow(width,2.0)));
@@ -47,7 +60,7 @@ int main(int argc, char * argv[])
 	/*
 	// ***********************************************
 	// ***********************************************
-	// ********* First Example ***********************
+	// ********* Quick Start Guide *******************
 	// ***********************************************
 	// ***********************************************
 	// initialize multigrid named mgrid
@@ -65,7 +78,9 @@ int main(int argc, char * argv[])
 	saveGrid(mgrid, "output/grid.dat");
 
 	// ***********************************************
-	// ********* Calculate Integral ******************
+	// ***********************************************
+	// ********* Numical Integration  ****************
+	// ***********************************************
 	// ***********************************************
 
 	// calculate a Lorentz function on this grid
@@ -90,7 +105,7 @@ int main(int argc, char * argv[])
 	/*
 	// ***********************************************
 	// ***********************************************
-	// ********* Grid types **************************
+	// ********* Simple grids ************************
 	// ***********************************************
 	// ***********************************************
 	equigrid egrid(100, -4, 4);
@@ -99,6 +114,12 @@ int main(int argc, char * argv[])
 	saveGrid(tgrid, "output/tangrid.dat");
 	loggrid lgrid(30, 30, -4, 4, 1, 0.4);
 	saveGrid(lgrid, "output/loggrid.dat");
+	*/
+	/*
+	equigrid agrid(100, -4, 4);
+	//tangrid agrid(100, -4, 4, 1, 0.5);
+	//loggrid agrid(30, 30, -4, 4, 1, 0.4);
+	double I=integrate(gauss, agrid);
 	*/
 
 	// ***********************************************

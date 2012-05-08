@@ -60,7 +60,7 @@ The maximal resolution of the exponential grid regions to the left (region I), $
 	& = -\exp(-c_1(N_l-1-i_1))+exp(-c_1(N_l-2-1_1)) \notag \\
 	& = \exp(-c_1(N_l-1-i_1))(e^{c_1}-1)
 \end{align*}
-analogously we have
+and
 \begin{align*}
 	d\omega_{min}^{r} & = \omega(N_l+N_k+1)-\omega(N_l+N_k) \notag \\
 	& = \exp(-c_2 i_2)(e^{c_2}-1)
@@ -72,7 +72,7 @@ The resolution of the linear grid (region II) will be the minimum of both
 \chapter{Cutting grid regions}\label{chapter:app_cutting}
 \index{Cutting points}
 \section{Calculation of cutting points}\label{sec:app_cutting_points}
-In this section we will calculate the points of equal grid point density $\omega_s$ between two grid of equidistant, tangential and logarithmic type. We will use the corresponding equations for the grid point density of these grid types, i.e.~equations \ref{eqn:equigrid_grid_point_density}, \ref{eqn:tangrid_grid_point_density} and \ref{eqn:loggrid_grid_point_density} in order to solve equation \ref{eqn:cutting_point}. We will go through all possible combinations for the left and right grid region, where we denote the left grid region parameters by a superscript $l$ and the right grid region parameter by a superscript $r$.
+In this section we will calculate the points of equal grid point density $\omega_s$ between two grids of equidistant, tangential and logarithmic type. We will use the corresponding equations for the grid point density of these grid types, i.e.~equations \ref{eqn:equigrid_grid_point_density}, \ref{eqn:tangrid_grid_point_density} and \ref{eqn:loggrid_grid_point_density} in order to solve equation \ref{eqn:cutting_point}. We will go through all possible combinations for the left and right grid region, where we denote the left grid region parameters by a superscript $l$ and the right grid region parameter by a superscript $r$.
 \begin{enumerate}
 	\item {\bf loggrid/loggrid}:
 		\begin{align*}
@@ -154,7 +154,7 @@ In this section we will calculate the points of equal grid point density $\omega
 
 
 \section{Adjust grid region parameters}\label{sec:app_cutting_gr}
-After a cutting point according to section \ref{sec:cutting_procedure} is found. The left or right part of a grid region will be cut. The cutting point $\omega_s$ must be in the interval $[\omega_l, \omega_-]$ for cutting the left part of a grid region an in the interval $[\omega_+, \omega_r]$ for cutting the right part of a grid region. In the following we will show how the corresponding grid region parameters must be altered in order to preserve the maximal grid resolution. 
+After a cutting point according to section \ref{sec:cutting_procedure} is found. The left or right part of a grid region will be cut. The cutting point $\omega_s$ must be in the interval $[\omega_l, \omega_-]$ for cutting the left part of a grid region an in the interval $[\omega_+, \omega_r]$ for cutting the right part of a grid region. In the following we will show how the corresponding grid region parameter must be altered in order to preserve the maximal grid resolution. 
 \begin{enumerate}
 	\item {\bf loggrid}, cut left
 	\begin{align*}
@@ -187,7 +187,7 @@ After a cutting point according to section \ref{sec:cutting_procedure} is found.
 		\omega_l&\to\omega_s
 	\end{align*}
 \end{enumerate}
-Note, that all the grid point numbers $N_l$, $N_r$, $M$, $\dots$ are chosen to be at least $3$ for numerical reasons. This is in accordance this the choice of the buffer regions for the grid regions (see \ref{tab:grid_region_types}).
+Note, that all the grid point numbers $N_l$, $N_r$, $M$, $\dots$ are chosen to be at least $3$ for numerical reasons. This is in accordance with the choice of the buffer regions (see \ref{tab:grid_region_types}).
 
 
 

@@ -25,7 +25,7 @@ grid.h
 mesh.cpp
 mesh.h
 \end{lstlisting}
-into your program directory. Include and link the files in the usual way. There is an example program \texttt{main.cpp} and the corresponding makefile \texttt{makefile} which will create an executable \texttt{example.out}.
+into your program directory. Include and link the files in the usual way. There is an example program \texttt{main.cpp} and the corresponding makefile \texttt{makefile} which will create an executable \texttt{example.out}. All examples used in this documentation are part of the example program and can be found in \texttt{main.cpp}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -39,7 +39,7 @@ can be written as
 \begin{equation} \label{eqn:nintegral}
 	I=\sum_{i=0}^M d\omega_i f(\omega_i)
 \end{equation}
-where the $\omega_i$ is the discrete integration grid and $d\omega_i$ are the corresponding weights. The integration grid is a mapping from a discrete index $i\in\{0,M\}$ to a continuous variable $\omega_i$. The multigrid class provides both the integration grid and its weights (which are calculated by the trapez rule) as well as an inverse mapping (back from any $\omega$ to the nearest index $i$).
+where the $\omega_i$ is the discrete integration grid and $d\omega_i$ are the corresponding weights. The integration grid is a mapping from a discrete index $i\in\{0,\dots,M\}$ to a continuous variable $\omega_i$. The multigrid class provides both the integration grid and its weights (which are calculated by the trapez rule) as well as an inverse mapping (back from any $\omega$ to the nearest index $i$).
 
 In the following we will show the basic functionality of the multigrid class by some simple examples. All these examples are more or less all part of the example program \texttt{main.cpp}. At first we will create a simple equidistant grid with from $-4$ to $4$ with a resolution of $0.01$ by 
 
@@ -55,6 +55,7 @@ mgrid.create();
 	\includegraphics[width=1.0\textwidth]{pics/multigrid_00.eps}
 \end{minipage}
 
+\vspace{1cm}
 After the declaration of the multigrid named \texttt{mgrid}, the member function \texttt{add\_gr\_equi} adds an equidistant grid region to the grid. The grid is created by invoking the \texttt{create} member function and it is accessed over its member variables (see table~\ref{tab:member}). 
 
 
@@ -97,7 +98,7 @@ To resolve steps or very sharp peaks in the integrand function one needs a lot o
 	\label{fig:lgr}
 \end{figure}
 
-It is created by the function \texttt{add\_gr\_log($\omega_0$, $\omega_1$, $d\omega_{max}$, $d\omega_{min}$)}. For example the following code adds a LGR on top of the equidistant grid region from above. Note that since the equidistant grid region was added first, it determines the outer boundaries of the whole grid (here from $-4$ to $4$). The first added grid region is therefore a special one and is called the basic grid region.
+It is created by the function \texttt{add\_gr\_log($\omega_0$, $\omega_1$, $d\omega_{max}$, $d\omega_{min}$)}. For example the following code adds a LGR on top of the equidistant grid region we used before. Note, that since the equidistant grid region was added first, it determines the outer boundaries of the whole grid (here from $-4$ to $4$). The first added grid region is therefore a special one and is called the basic grid region.
 \\
 \vspace{1cm}
 \noindent\begin{minipage}[l]{0.6\textwidth}
@@ -128,7 +129,7 @@ mgrid.create();
 	\includegraphics[width=1.0\textwidth]{pics/multigrid_02.eps}
 \end{minipage}
 
-These are only the basic features of the multigrid class. There is an algorithm which decides where to cut grid regions if there is intersection or even skip a particular grid region in special cases. The decisive element is the grid resolution exactly at the center of a given grid region $\omega_0$. This is called the peak point. Hereby it is possible to add hundreds of grid regions on top of each other without losing the resolution at every single peak point. In figure~\ref{fig:multiple_lgr} there is an example for the necessity for multiple LGR in the integration grid. The integrand function has several sharp peaks which has to be resolved. Each peak is resolved by a LGR.
+These are only the basic features of the multigrid class. There is an algorithm which decides where to cut grid regions if there is overlap or even skip a particular grid region in special cases. The decisive element is the grid resolution exactly at the center of a given grid region. Hereby it is possible to add hundreds of grid regions on top of each other without losing the resolution at every single center point of the grid regions. In figure~\ref{fig:multiple_lgr} there is an example for the necessity for multiple LGR in the integration grid. The integrand function has several sharp peaks which have to be resolved. Each peak is resolved by a LGR.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.9\textwidth]{pics/multiple_loggridregions.eps}
