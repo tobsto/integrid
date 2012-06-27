@@ -15,7 +15,7 @@ class grid
         virtual unsigned int inverse (double omega)=0;
 };
 \end{lstlisting}
-The grid itself and its weights are \texttt{STL-vectors} \cite{stl}. The inverse mapping is virtual, and so is the grid class itself. Only the classes which are derived from the grid class are non-virtual. If one is not familiar with the concept of inheritance one can think of it in the following way: Since all integration grids should possess the above attributes (table \ref{tab:member}), it is reasonable to define a skeleton for an integration grid. This is the virtual grid class. It is not possible to create an instance of the grid class, but its possible to give it as an argument in a function. For example:
+The grid itself and its weights are \texttt{vectors} \cite{stl}. The inverse mapping is virtual, and so is the grid class itself. Only the classes which are derived from the grid class are non-virtual. If one is not familiar with the concept of inheritance one can think of it in the following way: Since all integration grids should possess the above attributes (table \ref{tab:member}), it is reasonable to define a skeleton for an integration grid. This is the virtual grid class. It is not possible to create an instance of the grid class, but its possible to give it as an argument in a function. For example:
 \begin{lstlisting}
 void saveGrid(grid & mgrid, string filename)
 {
@@ -28,15 +28,15 @@ void saveGrid(grid & mgrid, string filename)
         out.close();
 }
 \end{lstlisting}
-This function can then take any kind of grid class (as long as it is derived from the basic grid class) as an argument. This is the whole purpose of using a virtual base grid class. In the following we will introduce all kinds of available grids.
+This function can then take any kind of grid class (as long as it is derived from the basic grid class) as an argument (for an example, see section \ref{sec:using_the_grid_classes}). This is the whole purpose of using a virtual base grid class. In the following we will introduce all kinds of available grids.
 
 \section{Equidistant grid: equigrid}\label{sec:equigrid}
 \index{Grid!equidistant}
 \index{equigrid}
 
-The simplest grid class is the equidistant grid class. It is called \texttt{equigrid} and the grid is defined in the following way:
+The simplest grid class is the equidistant grid class. It is called \texttt{equigrid} and the grid is defined in the following way
 \[
-	\omega(i) = \omega_{min} + d\omega \cdot i
+	\omega(i) = \omega_{min} + d\omega \cdot i\,,
 \]
 with $i\in {0,\dots,M}$ and $\omega(M)=\omega_{max}$. Beside the grid class attributes (table \ref{tab:member}), the equigrid has only one additional variable: the grid resolution $d\omega$. The inverse of $\omega(i)$ is given by
 \[
@@ -46,7 +46,7 @@ The grid point density reads
 \begin{equation}\label{eqn:equigrid_grid_point_density}
  \frac{di}{d\omega} (\omega) = \frac{1}{d\omega}
 \end{equation}
-The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its defining member variable are listed in table \ref{tab:equigrid_defining_members}.
+The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its defining member variables are listed in table \ref{tab:equigrid_defining_members}.
 \begin{table}[h]
 	\begin{center}
 		\begin{tabular}{llp{3cm}l}
@@ -71,7 +71,7 @@ equigrid egrid(M, omega_min, omega_max);
 \index{Grid!tangential}
 \index{tangrid}
 
-The tangential grid is called \texttt{tangrid}. Beside the grid class attributes (table \ref{tab:member}), it has the a cluster point at $\omega_c$ \\
+The tangential grid is called \texttt{tangrid}. Beside the grid class attributes (table \ref{tab:member}), it has a cluster point at $\omega_c$: \\
 
 \begin{center}
 	\includegraphics[width=0.3\textwidth]{pics/tangrid.eps}
@@ -81,7 +81,7 @@ The tangential grid is called \texttt{tangrid}. Beside the grid class attributes
 \[
 	\omega(i)= c \tan (u_1+\Delta u \cdot i) + \omega_c
 \]
-where $i\in \{0,\dots,M\}$, and the parameters $u^0_1$ and $\Delta u$ are calculated such, that boundary conditions $\omega(0)=\omega_{min}$ and $\omega(M)=\omega_{max}$ are fulfilled. Hence
+where $i\in \{0,\dots,M\}$, and the parameters $u_1$ and $\Delta u$ are calculated such, that boundary conditions $\omega(0)=\omega_{min}$ and $\omega(M)=\omega_{max}$ are fulfilled. Hence:
 \begin{align*}
 	u_1&=\arctan\left(\frac{\omega_{min}-\omega_c}{c}\right)\\
 	u_2&=\arctan\left(\frac{\omega_{max}-\omega_c}{c}\right)\\
@@ -93,10 +93,10 @@ The inverse of the grid is given by
 \]
 and the point density reads
 \begin{equation}\label{eqn:tangrid_grid_point_density}
- \frac{di}{d\omega} (\omega) = \frac{1}{c \Delta u\left(1+\left(\frac{\omega-\omega_c}{c}\right)^2\right)}
+ \frac{di}{d\omega} (\omega) = \frac{1}{c \Delta u\left(1+\left(\frac{\omega-\omega_c}{c}\right)^2\right)}\,.
 \end{equation}
 
-The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its defining member variable are listed in table \ref{tab:tangrid_defining_members}.
+The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its defining member variables are listed in table \ref{tab:tangrid_defining_members}.
 \begin{table}[h]
 	\begin{center}
 		\begin{tabular}{llll}
@@ -121,21 +121,21 @@ tangrid tgrid(M, omega_min, omega_max, omega_c, c);
 \section{Logarithmic grid: loggrid}\label{sec:loggrid}
 \index{Grid!logarithmic}
 \index{loggrid}
-To resolve very sharp peaks in the integrand function the logarithmic grid is the right tool. It is named \texttt{loggrid} and it is constructed in the following way. There are three grid regions: one below I, one around II and one above III the center point $\omega_k$, which is the point with the highest grid point density.\\
+To resolve very sharp peaks in the integrand function the logarithmic grid is the right tool. It is named \texttt{loggrid} and it is constructed in the following way. There are three grid regions: one below (I), one around (II) and one above (III) the center point $\omega_k$, which is the point with the highest grid point density.\\
 
 \begin{center}
 	\includegraphics[width=0.4\textwidth]{pics/loggrid.eps}
 \end{center}
 
-Region I and III are exponential and region II is linear. The half width of the linear region $\omega_0$ also controls the ''sharpness`` of the exponential grid regions. The number of grid points in region I, $N_l$ and in region III, $N_r$ can be chosen different from each other. Both will also influence the ''sharpness'' of the exponential grid regions. The resolution of the linear grid region $d\omega_k$ is the same as the maximal resolution in the exponential grid regions and it determines the number of grid points in region II, $N_k$ (see Appendix \ref{sec:app_loggrid_max_resolution}). The grid is defined as
+Region I and III are exponential and region II is linear. The half width of the linear region $\omega_0$ also controls the ''sharpness`` of the exponential grid regions. The number of grid points in region I, $N_l$ and in region III, $N_r+1$ can be chosen different from each other. Both will also influence the ''sharpness'' of the exponential grid regions. The resolution of the linear grid region $d\omega_k$ is the same as the maximal resolution in the exponential grid regions and it determines the number of grid points in region II, $N_k$ (see Appendix \ref{sec:app_loggrid_max_resolution}). The grid is defined as
 \begin{equation}\label{eqn:loggrid_definition}
 	\omega(i)=\begin{cases}
 		-\exp(-c_1(i-i_1)) + \omega_k 		\quad & i\in\{0,\dots,N_l-1\} \\ 
-		\omega_k-\omega_0+d\omega_k(i-N_l)	\quad & i\in\{N_l,\dots,N_l+N_k-1\} \\ 
+		\omega_k-\omega_0+d\omega_k(i-N_l-1)	\quad & i\in\{N_l,\dots,N_l+N_k-1\} \\ 
 		\exp(c_2(i-i_2-N_l-N_k)) + \omega_k 	\quad & i\in\{N_l+N_k,\dots,N_l+N_k+N_r\}
 	\end{cases}
 \end{equation}
-The four boundary conditions:
+The four boundary conditions
 \begin{align}\label{eqn:loggrid_boundary_conditions}
 	\omega(0)&=\omega_{min} \quad &\omega(N_l-1)&=\omega_k-\omega_0 \notag \\
 	\omega(N_l+N_k)&=\omega_k+\omega_0 \quad &\omega(N_l+N_k+N_r)&=\omega_{max}
@@ -143,8 +143,8 @@ The four boundary conditions:
 determine the four parameters $i_1$, $i_2$, $c_1$ and $c_2$ (see Appendix \ref{sec:app_loggrid_boundary}). The inverse is given by
 \[
 	i(\omega)=\begin{cases}
-		\frac{\log(\omega_k-\omega)}{-c_1} + i_1 \quad &\text{for } \omega\in[\omega_{min},\omega_k-\omega_0) \\
-		\frac{\omega-\omega_k+\omega_0)}{d\omega_k} + N_l \quad &\text{for } \omega\in[\omega_k-\omega_0,\omega_k+\omega_0) \\
+		\frac{\log(\omega_k-\omega)}{-c_1} + i_1 \quad &\text{for } \omega\in[\omega_{min},\omega_k-\omega_0] \\
+		\frac{\omega-\omega_k+\omega_0}{d\omega_k} + N_l -1\quad &\text{for } \omega\in(\omega_k-\omega_0,\omega_k+\omega_0) \\
 		\frac{\log(\omega-\omega_k)}{c_2} + i_2 + N_l + N_k \quad &\text{for } \omega\in[\omega_k+\omega_0, \omega_{max}]
 	\end{cases}
 \]
@@ -157,7 +157,7 @@ and the grid point density reads
 	\end{cases}
 \end{equation}
 
-The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its defining member variable are listed in table \ref{tab:loggrid_defining_members}.
+The class is defined in the files \texttt{grid.h} and \texttt{grid.cpp}. Its defining member variables are listed in table \ref{tab:loggrid_defining_members}.
 \begin{table}[h]
 	\begin{center}
 		\begin{tabular}{llll}
@@ -185,7 +185,7 @@ loggrid loggrid(N_l, N_r, omega_min, omega_max, omega_k, omega_0);
 \index{tangrid}
 \index{loggrid}
 
-All of the above grids are derived from the base class \texttt{grid}. Therefore it is possible to write an function which performs the numerical integration without specifying the type of grid one wants to use
+All of the above grids are derived from the base class \texttt{grid}. Therefore it is possible to write a function which performs the numerical integration without specifying the type of grid one wants to use
 \begin{lstlisting}
 double integrate(double (&f)(double), grid & g)
 {

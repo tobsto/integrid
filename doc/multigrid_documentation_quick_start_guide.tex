@@ -12,11 +12,26 @@ The purpose of this section is to give you a brief introduction of how the multi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Installation}
-At the moment the only possibility to use the multigrid class is to directly incorporate the source file into your program. It is planned to create a library version. At first download the latest version of the multigrid class from
+There are two possibilities to incorporate the multigrid class in your program. First, one has to download the latest version of the multigrid class from	
 \begin{lstlisting}[language=bash]
 https://github.com/tstollenw/multigrid
 \end{lstlisting}
-unpack it and put the files
+and unpack it somewhere. 
+\subsection{Install as a library}
+The recommended way is to install the multigrid class as a shared library. This is done in the following way.
+\begin{lstlisting}
+python configure.py <installation directory>
+make
+make install
+\end{lstlisting}
+The last command copies the library into the installation directory. If you do not have the necessary privileges, you may need to call
+\begin{lstlisting}
+sudo make install
+\end{lstlisting}
+instead. This will create a shared library \texttt{libmultigrid.so} and install it together with the necessary header file into the given installation directory.
+
+\subsection{Direct use}
+Alternatively, you could copy the files
 \begin{lstlisting}
 multigrid.cpp
 multigrid.h
@@ -25,7 +40,10 @@ grid.h
 mesh.cpp
 mesh.h
 \end{lstlisting}
-into your program directory. Include and link the files in the usual way. There is an example program \texttt{main.cpp} and the corresponding makefile \texttt{makefile} which will create an executable \texttt{example.out}. All examples used in this documentation are part of the example program and can be found in \texttt{main.cpp}.
+into your program directory and then include and link the files in the usual way. 
+
+\subsection{Example program}
+There is an example program \texttt{main.cpp} and will create an executable \texttt{example.out}. This is done by \texttt{make example\_lib} for the library installation or by \texttt{make example} for the direct use. All examples used in this documentation are part of the example program and can be found in \texttt{main.cpp}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -41,7 +59,7 @@ can be written as
 \end{equation}
 where the $\omega_i$ is the discrete integration grid and $d\omega_i$ are the corresponding weights. The integration grid is a mapping from a discrete index $i\in\{0,\dots,M\}$ to a continuous variable $\omega_i$. The multigrid class provides both the integration grid and its weights (which are calculated by the trapez rule) as well as an inverse mapping (back from any $\omega$ to the nearest index $i$).
 
-In the following we will show the basic functionality of the multigrid class by some simple examples. All these examples are more or less all part of the example program \texttt{main.cpp}. At first we will create a simple equidistant grid with from $-4$ to $4$ with a resolution of $0.01$ by 
+In the following we will show the basic functionality of the multigrid class by some simple examples. All these examples are more or less all part of the example program \texttt{main.cpp}. At first we will create a simple equidistant grid from $-4$ to $4$ with a resolution of $0.01$ by 
 
 \vspace{1cm}
 \noindent\begin{minipage}[l]{0.6\textwidth}
@@ -65,8 +83,8 @@ After the declaration of the multigrid named \texttt{mgrid}, the member function
 		\begin{tabular}{l|l|l}\hline
 		Name & Type & Description \\ \hline
 		\texttt{M} & integer & Number of grid points\\\hline
-		\texttt{omega} & STL-Vector & Grid (mapping $i\to\omega$ )\\\hline
-		\texttt{domega} & STL-Vector & Weights of the grid\\\hline
+		\texttt{omega} & vector & Grid (mapping $i\to\omega$ )\\\hline
+		\texttt{domega} & vector & Weights of the grid\\\hline
 		\texttt{omega\_min} & double & Minimum grid value (equal to \texttt{omega[0]}) \\\hline
 		\texttt{omega\_max} & double & Maximum grid value (equal to \texttt{omega[M]}) \\\hline
 		\texttt{inverse} & returns integer & Inverse mapping: $\omega\to i$ \\\hline
@@ -85,12 +103,13 @@ for (int i=0; i<=mgrid.M; j++)
 	I += f(mgrid.omega[i]) * mgrid.domega[i];
 }
 \end{lstlisting}
+where the trapez rule is used to calculate the weights \texttt{domega}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Logarithmically Dense Grid Regions}\index{Grid region!logarithmic}
-To resolve steps or very sharp peaks in the integrand function one needs a lot of integration grid points at specific regions. The multigrid class provides a tool to solve such problems: logarithmically dense grid regions (LGR). An LGR is determined by four variables, i.e.~the center of the grid region $\omega_0$ which corresponds for example to the position of a peak in the integrand function, the half width of the grid region $\omega_1$, the maximal resolution $d\omega_{max}$ at the center of the grid region and the minimal resolution $d\omega_{min}$ at the edges of the grid region (see figure~\ref{fig:lgr}). 
+To resolve steps or very sharp peaks in the integrand function one needs a lot of integration grid points at specific regions. The multigrid class provides a tool to solve such problems: logarithmically dense grid regions (LGR). An LGR is determined by four variables, i.e.~the center of the grid region $\omega_0$ which corresponds for example to the position of a peak in the integrand function, the half width of the grid region $\omega_1$, the maximal resolution $d\omega_{min}$ at the center of the grid region and the minimal resolution $d\omega_{max}$ at the edges of the grid region (see figure~\ref{fig:lgr}). 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.6\textwidth]{pics/loggridregion.eps}
@@ -113,7 +132,7 @@ mgrid.create();
 	\includegraphics[width=1.0\textwidth]{pics/multigrid_01.eps}
 \end{minipage}
 
-The strength of the multigrid is that one can add now more and more grid regions on top of each other. The \texttt{create} function will take care of calculating intersection points between the grid regions by favoring the better resolved grid region. In the following example the there are two intersecting LGR on top of an equidistant grid region. 
+The strength of the multigrid is that one can add now more and more grid regions on top of each other. The \texttt{create} function will take care of calculating intersection points between the grid regions by favoring the better resolved grid region. In the following example there are two intersecting LGR on top of an equidistant grid region. 
 \\
 \vspace{1cm}
 \noindent\begin{minipage}[l]{0.6\textwidth}

@@ -8,13 +8,13 @@ In this chapter, we will briefly review the concepts of numerical integration in
 \end{equation}
 For the numerical calculation of this integral one has to discretize the interval of integration $[a,b]$:
 \[
-	\omega \to \omega(i) \quad;\quad i\in\{0,\dots,M\}\quad\text{and}\quad \omega(0)=a,\quad \omega(M)=b.
+	\omega(i) \quad;\quad i\in\{0,\dots,M\}\quad\text{and}\quad \omega(0)=a,\quad \omega(M)=b.
 \]
 Where the strictly increasing mapping $\omega: \mathbbm{N} \to \mathbbm{R}: i \mapsto \omega(i)$ is called a grid. The numerical approximation for the integral now reads
 \begin{equation} 
 	I=\sum_{i=0}^M d\omega(i) f(\omega(i))
 \end{equation}
-where the $d\omega(i)$ are the so called weights. There are various methods to calculate the weights out of the grid itself. We will restrict ourselves to the trapezoidal rule which approximates the integrand function by linear regions connecting the sample points (see figure~\ref{fig:trapezoidal_rule}).
+where the $d\omega(i)$ are the so-called weights. There are various methods to calculate the weights out of the grid itself. We will restrict ourselves to the trapezoidal rule which approximates the integrand function by linear regions connecting the sample points (see figure~\ref{fig:trapezoidal_rule}).
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.3\textwidth]{pics/trapez.eps}
@@ -25,15 +25,15 @@ where the $d\omega(i)$ are the so called weights. There are various methods to c
 The numerical approximation for the integral is then
 \begin{align*}
 	I&=\sum_{i=0}^{M-1} \frac{f(\omega(i+1)) + f(\omega(i))}{2} (\omega(i+1)-\omega(i)) \\
-	&=f_0\biggl( \underbrace{\frac{\omega(1)-\omega(0)}{2}}_{d\omega(0)}\biggr) + f_1 \biggl( \underbrace{\frac{\omega(N)-\omega(N-1)}{2}}_{d\omega(N)}\biggr) + \sum_{i=1}^{M-1} f(\omega(i)) \biggl( \underbrace{\frac{\omega(i+1)-\omega(i-1)}{2}}_{d\omega(i)}\biggr)\\
-	&=\sum_{i=0}^{M} d\omega(i)\,f(\omega(i))
+	&=f(a)\biggl( \underbrace{\frac{\omega(1)-\omega(0)}{2}}_{d\omega(0)}\biggr) + f(b) \biggl( \underbrace{\frac{\omega(N)-\omega(N-1)}{2}}_{d\omega(N)}\biggr) + \sum_{i=1}^{M-1} f(\omega(i)) \biggl( \underbrace{\frac{\omega(i+1)-\omega(i-1)}{2}}_{d\omega(i)}\biggr)\\
+	&=\sum_{i=0}^{M} d\omega(i)\,f(\omega(i)).
 \end{align*}
-therefore the weights are given by
+Therefore the weights are given by
 \[
 	d\omega(i)=\begin{cases}
 		\frac{\omega(1)-\omega(0)}{2} \quad &i=0\\
 		\frac{\omega(i+1)-\omega(i-1)}{2} \quad &i\in \{1,\dots,M-1\}  \\
-		\frac{\omega(N)-\omega(N-1)}{2} \quad &i=M
+		\frac{\omega(N)-\omega(N-1)}{2} \quad &i=\,.
 	\end{cases}
 \]
 

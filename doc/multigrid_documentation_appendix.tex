@@ -108,7 +108,7 @@ In this section we will calculate the points of equal grid point density $\omega
 		\[
 			\Rightarrow \boxed{\omega_s= \frac{p}{2} \pm \sqrt{\underbrace{\frac{p^2}{4}-q}_{\stackrel{<0 \text{ if no solution}}{\text{to \ref{eqn:cutting_point} exists} } } }}
 		\]
-		Where the plus or minus sign is chosen such, that $\omega_s$ lies inside $[\omega_c^l, \omega_c^r]$.
+		The plus or minus sign is chosen such, that $\omega_s$ lies inside $[\omega_c^l, \omega_c^r]$.
 
 	\item {\bf loggrid/equigrid}:
 		\begin{align*}
@@ -154,7 +154,7 @@ In this section we will calculate the points of equal grid point density $\omega
 
 
 \section{Adjust grid region parameters}\label{sec:app_cutting_gr}
-After a cutting point according to section \ref{sec:cutting_procedure} is found. The left or right part of a grid region will be cut. The cutting point $\omega_s$ must be in the interval $[\omega_l, \omega_-]$ for cutting the left part of a grid region an in the interval $[\omega_+, \omega_r]$ for cutting the right part of a grid region. In the following we will show how the corresponding grid region parameter must be altered in order to preserve the maximal grid resolution. 
+After a cutting point according to section \ref{sec:cutting_procedure} is found, the left or right part of a grid region will be cut. The cutting point $\omega_s$ must be in the interval $[\omega_l, \omega_-]$ for cutting the left part of a grid region and in the interval $[\omega_+, \omega_r]$ for cutting the right part of a grid region. In the following we will show how the corresponding grid region parameter must be altered in order to preserve the maximal grid resolution. 
 \begin{enumerate}
 	\item {\bf loggrid}, cut left
 	\begin{align*}
@@ -187,7 +187,7 @@ After a cutting point according to section \ref{sec:cutting_procedure} is found.
 		\omega_l&\to\omega_s
 	\end{align*}
 \end{enumerate}
-Note, that all the grid point numbers $N_l$, $N_r$, $M$, $\dots$ are chosen to be at least $3$ for numerical reasons. This is in accordance with the choice of the buffer regions (see \ref{tab:grid_region_types}).
+Note, that all the grid point numbers $N_l$, $N_r$, $M$, $\dots$ are chosen to be at least equal to $3$ for numerical reasons. This is in accordance with the choice of the buffer regions (see \ref{tab:grid_region_types}).
 
 
 

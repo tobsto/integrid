@@ -10,7 +10,31 @@ The purpose of this section is to give you a brief introduction of how the multi
 
 Installation
 ------------
-At the moment the only possiblility to use the multigrid class is to directly incorporate the source file into your program. It is planned to create a library version. At first download the latest version of the multigrid class from::
+There are two possibilities to incorporate the multigrid class in your program. First, one has to download the latest version of the multigrid class from ::
+
+    https://github.com/tstollenw/multigrid
+
+and unpack it somewhere. 
+
+Install as a library
+^^^^^^^^^^^^^^^^^^^^
+
+The recommended way is to install the multigrid class as a shared library. This is done in the following way. ::
+
+    python configure.py <installation directory>
+    make
+    make install
+
+The last command copies the library into the installation directory. If you do not have the necessary privileges, you may need to call ::
+
+    sudo make install
+
+instead. This will create a shared library ``libmultigrid.so`` and install it together with the necessary header file into the given installation directory.
+
+Direct use
+^^^^^^^^^^
+
+Alternatively, you could copy the files ::
 
     multigrid.cpp
     multigrid.h
@@ -19,7 +43,12 @@ At the moment the only possiblility to use the multigrid class is to directly in
     mesh.cpp
     mesh.h
 
-into your program directory. Include and link the files in the usual way. There is an example program main.cpp and the corresponding makefile which will create an excecutable example.out.
+into your program directory and then include and link the files in the usual way. 
+
+Example program
+^^^^^^^^^^^^^^^
+
+There is an example program ``main.cpp`` and will create an executable ``example.out``. This is done by ``make example_lib`` for the library installation or by ``make example`` for the direct use. All examples used in this documentation are part of the example program and can be found in ``main.cpp``.
 
 First Steps
 -----------
@@ -42,7 +71,7 @@ can be written as::
 
 where the w(i) is the discrete integration grid and dw(i) are the corresponding weights. The integration grid is a mapping from a discrete index i ={0,..,M} to a contineous variable w(i). The multigrid class provides both the integration grid and its weights (which are calculated by the trapez rule) as well as an inverse mapping (back from any w to the nearest index i).
 
-In the following we will show the basic functionallity of the multigrid class by some simple examples. All these examples are more or less all part of the example program ``main.cpp``. At first we will create a simple equidistant grid with from -4 to 4 with a resolution of 0.01 by::
+In the following we will show the basic functionallity of the multigrid class by some simple examples. All these examples are more or less all part of the example program ``main.cpp``. At first we will create a simple equidistant grid from -4 to 4 with a resolution of 0.01 by::
 
     multigrid mgrid;
     mgrid.add_gr_equi(-4, 4, 0.01);
@@ -56,8 +85,8 @@ After the declaration of the multigrid named ``mgrid``, the member function ``ad
 Name           Type                        Description
 =============  ==========================  ==========================================
 ``M``          Integer                     Number of grid points
-``omega``      STL-vector                  Grid
-``domega``     STL-vector                  Weights of the grid
+``omega``      vector                      Grid
+``domega``     vector                      Weights of the grid
 ``omega_min``  double                      Minimum grid value (equal to ``omega[0]``)
 ``omega_max``  double                      Maximum grid value (equal to ``omega[M]``)
 ``inverse``    function returning integer  Inverse mapping: w -> i
@@ -70,11 +99,12 @@ The calculation of the above integral from -4 to 4 is then done by::
     {
     	I += f(mgrid.omega[i]) * mgrid.domega[i];
     }
+where the trapez rule is used to calculate the weights ``domega``.
 
 
 Logarithmically Dense Grid Regions
 ----------------------------------
-To resolve steps or very sharp peaks in the integrand function one needs a lot of integration grid points at specific regions. The multigrid class provides a tool to solve such problems: logarithmically dense grid regions (LGR). An LGR is determined by four variables, i.e.~the center of the grid region ``omega_0`` which corresponds for example to the position of a peak in the integrand function, the half width of the grid region ``omega_1``, the maximal resolution ``domega_max`` at the center of the grid region and the minimal resolution ``domega_min`` at the edges of the grid region. 
+To resolve steps or very sharp peaks in the integrand function one needs a lot of integration grid points at specific regions. The multigrid class provides a tool to solve such problems: logarithmically dense grid regions (LGR). An LGR is determined by four variables, i.e.~the center of the grid region ``omega_0`` which corresponds for example to the position of a peak in the integrand function, the half width of the grid region ``omega_1``, the maximal resolution ``domega_min`` at the center of the grid region and the minimal resolution ``domega_max`` at the edges of the grid region. 
 
 .. image:: https://github.com/tstollenw/multigrid/raw/master/doc/pics/loggridregion.png
 
@@ -90,7 +120,7 @@ For example the following code adds a LGR on top of the equidistant grid region 
 
 .. image:: https://github.com/tstollenw/multigrid/raw/master/doc/pics/multigrid_01.png
 
-The strength of the multigrid is that one can add now more and more grid regions on top of each other. The ``create`` function will take care of calculating intersection points between the grid regions by favoring the better resolved grid region. In the following example the there are two intersecting LGR on top of an equidistant grid region::
+The strength of the multigrid is that one can add now more and more grid regions on top of each other. The ``create`` function will take care of calculating intersection points between the grid regions by favoring the better resolved grid region. In the following example there are two intersecting LGR on top of an equidistant grid region::
 
     multigrid mgrid;
     mgrid.add_gr_equi(-4, 4, 0.01);

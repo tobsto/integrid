@@ -25,4 +25,4 @@ amesh.add_lendpoint(0.15);
 amesh.add_rendpoint(0.85);
 amesh.create();
 \end{lstlisting}
-Note, that a inserted points will always take care of not letting the grid point difference ($\sim$ weights) getting to small (beyond machine precision). This is achieved by skipping all existing points which are to narrow to the inserted point.
+Note, that by inserting a point it will always be taken care of not letting the grid point difference ($\sim$ weights) getting to small (beyond machine precision). This is achieved by skipping all existing points which are to narrow to the inserted point.
