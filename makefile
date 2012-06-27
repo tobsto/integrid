@@ -1,6 +1,21 @@
+INSTALL_DIR=/usr/local/
 CC=g++
-example.out: grid.o multigrid.o mesh.o main.o
+
+libmultigrid.so: grid.o multigrid.o mesh.o
+	$(CC) -c -fPIC grid.cpp multigrid.cpp mesh.cpp
+	$(CC) -shared -o libmultigrid.so grid.o multigrid.o mesh.o
+
+install: libmultigrid.so
+	cp grid.h multigrid.h mesh.h $(INSTALL_DIR)/include/
+	cp libmultigrid.so $(INSTALL_DIR)/lib/
+
+
+example: grid.o multigrid.o mesh.o main.o
 	$(CC) main.o grid.o multigrid.o mesh.o -o example.out
+
+example_lib: main.cpp  
+	$(CC) -I $(INSTALL_DIR)/include/ -L $(INSTALL_DIR)/lib/ -o example.out main.cpp -lmultigrid
+
 grid.o: grid.cpp grid.h
 	$(CC) -c grid.cpp 
 multigrid.o: multigrid.cpp multigrid.h
@@ -10,4 +25,4 @@ mesh.o: mesh.cpp mesh.h
 main.o: main.cpp grid.o mesh.o grid.o
 	$(CC) -c main.cpp 
 clean:
-	rm -r *.o *.out output/
+	rm -rf *.o *.out output/ *.so

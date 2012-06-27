@@ -39,9 +39,9 @@ void saveGrid(grid & mgrid, string filename)
 double integrate(double (&f)(double), grid & g)
 {
 	double I=0;
-	(int i=0; i<=mgrid.M; i++)
+	for (int i=0; i<=g.M; i++)
 	{
-		I+= f(mgrid.omega[i]) * domega[i];
+		I+= f(g.omega[i]) * g.domega[i];
 	}
 	return I;
 } 
