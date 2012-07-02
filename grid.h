@@ -1,21 +1,20 @@
 // ****************************************************************************
-// grids 
+// This file is part of Multigrid.
 //
-// Description:	
-//		Grid is the basis class for other grids. It has only some 
-//		basic properties like:
-//		M:			length of the grid
-//		omega_min:		minimum	
-//		omega_max:		maximum	
-//		omega:			container for the grid	
-//		domega:			container for the weigths	
-//		inverse mapping:	inverse mapping for interpolation	
-//
-// Programm structure: 
-//		'grid' is a abstract class (no instance of this class 
-//		possible.
+// Multigrid is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-// Tobias Stollenwerk, Last Modification: 29.2.2012
+// Multigrid is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Multigrid.  If not, see <http://www.gnu.org/licenses/>.
+//
+// Copyright 2012 Tobias Stollenwerk
 // ****************************************************************************
 #include<iostream>
 #include<fstream>
