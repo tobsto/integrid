@@ -135,3 +135,13 @@ These are only the basic features of the multigrid class. There is an algorithm 
 .. image:: https://github.com/tstollenw/multigrid/raw/master/doc/pics/multiple_loggridregions.png
 
 Figure: Multigrid with various logarithmically dense grid regions to resolve a multiple peaked integrand function
+
+Licence
+-------
+GNU General Public Licence, Version 3 (``http://www.gnu.org/licenses``)
+
+
+Copyright
+---------
+
+Copyright 2012 Tobias Stollenwerk
