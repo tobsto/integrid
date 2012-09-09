@@ -1,6 +1,6 @@
 Multigrid
 =========
-The multigrid class is a highly versatile integration grid class for C++. It features the integration of multiple grid regions in order to resolve sharp peaks or steps in the integrand function. Hereby one can choose between equidistant, tangential and logarithmically dense grid regions. Although the number of grid regions is not bounded, there is an inverse mapping useful for fast interpolation purposes. Intersection and overlap of different grid region is possible will be dealt with by favouring the better resolve grid region.
+The multigrid class is a highly versatile integration grid class for C++. It features the integration of multiple grid regions in order to resolve sharp peaks or steps in the integrand function. Hereby one can choose between equidistant, tangential and logarithmically dense grid regions. Although the number of grid regions is not bounded, there is an inverse mapping useful for fast interpolation purposes. Intersection and overlap of different grid region is possible and will be dealt with by favouring the better resolve grid region.
 
 The original purpose of the multigrid class was to resolve a lot of sharp Lorentz-like peaks in a self-consistent calculation on strongly correlated electron systems.
 
@@ -10,7 +10,7 @@ The purpose of this section is to give you a brief introduction of how the multi
 
 Installation
 ------------
-There are two possibilities to incorporate the multigrid class in your program. First, one has to download the latest version of the multigrid class from ::
+There are two possibilities to incorporate the multigrid class in your program. First, you have to download the latest version of the multigrid class from ::
 
     https://github.com/tstollenw/multigrid
 
