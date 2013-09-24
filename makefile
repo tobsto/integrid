@@ -1,18 +1,18 @@
 # ****************************************************************************
-# This file is part of Multigrid.
+# This file is part of Integrid.
 #
-# Multigrid is free software: you can redistribute it and/or modify
+# Integrid is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 # 
-# Multigrid is distributed in the hope that it will be useful,
+# Integrid is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 # 
 # You should have received a copy of the GNU General Public License
-# along with Multigrid.  If not, see <http:#www.gnu.org/licenses/>.
+# along with Integrid.  If not, see <http:#www.gnu.org/licenses/>.
 #
 # Copyright 2012 Tobias Stollenwerk
 # ****************************************************************************
@@ -20,20 +20,20 @@
 INSTALL_DIR=/usr/local/
 CC=g++
 
-libmultigrid.so: grid.o multigrid.o mesh.o
+libintegrid.so: grid.o multigrid.o mesh.o
 	$(CC) -c -fPIC grid.cpp multigrid.cpp mesh.cpp
-	$(CC) -shared -o libmultigrid.so grid.o multigrid.o mesh.o
+	$(CC) -shared -o libintegrid.so grid.o multigrid.o mesh.o
 
-install: libmultigrid.so
+install: libintegrid.so
 	cp grid.h multigrid.h mesh.h $(INSTALL_DIR)/include/
-	cp libmultigrid.so $(INSTALL_DIR)/lib/
+	cp libintegrid.so $(INSTALL_DIR)/lib/
 
 
 example: grid.o multigrid.o mesh.o main.o
 	$(CC) main.o grid.o multigrid.o mesh.o -o example.out
 
 example_lib: main.cpp  
-	$(CC) -I $(INSTALL_DIR)/include/ -L $(INSTALL_DIR)/lib/ -o example.out main.cpp -lmultigrid
+	$(CC) -I $(INSTALL_DIR)/include/ -L $(INSTALL_DIR)/lib/ -o example.out main.cpp -lintegrid
 
 grid.o: grid.cpp grid.h
 	$(CC) -c grid.cpp 

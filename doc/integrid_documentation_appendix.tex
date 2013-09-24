@@ -102,8 +102,12 @@ In this section we will calculate the points of equal grid point density $\omega
 		\begin{align*}
 			&\frac{1}{c^l\Delta u^l\left(1+\left(\frac{\omega_s-\omega_c^l}{c^l}\right)^2\right)}\stackrel{!}{=}\frac{1}{c^r\Delta u^r\left(1+\left(\frac{\omega_s-\omega_c^r}{c^r}\right)^2\right)}\\
 			&\Leftrightarrow c^l\Delta u^l + \frac{\Delta u^l}{c^l}(\omega_s - \omega_c^l)^2 - c^r \Delta u^r - \frac{\Delta u^r}{c^r}(\omega_s - \omega_c^r)^2 = 0 \\
-			&\Leftrightarrow \left( \frac{\Delta u^l}{c^l} - \frac{\Delta u^r}{c^r}\right) \omega_s^2 - \left( \frac{2\Delta u^l \omega_c^l}{c^l} - \frac{2 \Delta u^r \omega_c^r}{c^r} \right) \omega_s + \frac{\Delta u^l}{c^l}(\omega_c^l)^2 - \frac{\Delta u^r}{c^r}(\omega_c^r)^2 + c^l\Delta u^l c^r \Delta u^r = 0\\
-			&\Leftrightarrow \omega_s^2 - \underbrace{\biggl(\frac{2\Delta u^l \omega_c^l c^r}{\Delta u^l c^r - \Delta u^r c^l} - \frac{2\Delta u^r \omega_c^r c^l}{\Delta u^l c^r - \Delta u^r c^l} \biggr)}_{:=p} \omega_s + \underbrace{\biggl(\frac{c^r \Delta u^l (\omega_c^l)^2 - c^l \Delta u^r (\omega_c^r)^2 + \Delta u^l c^r (c^l)^2 - \Delta u^r c^l (c^r)^2}{\Delta u^l c^r - \Delta u^r c^l}\biggr)}_{:=q}=0
+			&\Leftrightarrow \left( \frac{\Delta u^l}{c^l} - \frac{\Delta u^r}{c^r}\right) \omega_s^2 - \left( \frac{2\Delta u^l \omega_c^l}{c^l} - \frac{2 \Delta u^r \omega_c^r}{c^r} \right) \omega_s 
+			\\
+			&\quad + \frac{\Delta u^l}{c^l}(\omega_c^l)^2 - \frac{\Delta u^r}{c^r}(\omega_c^r)^2 + c^l\Delta u^l c^r \Delta u^r = 0\\
+			&\Leftrightarrow \omega_s^2 - \underbrace{\biggl(\frac{2\Delta u^l \omega_c^l c^r}{\Delta u^l c^r - \Delta u^r c^l} - \frac{2\Delta u^r \omega_c^r c^l}{\Delta u^l c^r - \Delta u^r c^l} \biggr)}_{:=p} \omega_s \\
+			\\
+			&\quad  + \underbrace{\biggl(\frac{c^r \Delta u^l (\omega_c^l)^2 - c^l \Delta u^r (\omega_c^r)^2 + \Delta u^l c^r (c^l)^2 - \Delta u^r c^l (c^r)^2}{\Delta u^l c^r - \Delta u^r c^l}\biggr)}_{:=q}=0
 		\end{align*}
 		\[
 			\Rightarrow \boxed{\omega_s= \frac{p}{2} \pm \sqrt{\underbrace{\frac{p^2}{4}-q}_{\stackrel{<0 \text{ if no solution}}{\text{to \ref{eqn:cutting_point} exists} } } }}

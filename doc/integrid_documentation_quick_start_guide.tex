@@ -6,19 +6,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Quick Start Guide}\label{chapter:quick_start_guide}
-The purpose of this section is to give you a brief introduction of how the multigrid is used in practice. It may suffice for the most applications.
+The purpose of this section is to give you a brief introduction of how the multigrid class is used in practice. It may suffice for the most applications.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Installation}
-There are two possibilities to incorporate the multigrid class in your program. First, you have to download the latest version of the multigrid class from	
+There are two possibilities to incorporate the integrid library in your program. First, you have to download the latest version from	
 \begin{lstlisting}[language=bash]
-https://github.com/tstollenw/multigrid
+https://github.com/tstollenw/integrid
 \end{lstlisting}
 and unpack it somewhere. 
 \subsection{Install as a library}
-The recommended way is to install the multigrid class as a shared library. This is done in the following way.
+The recommended way is to install integrid as a shared library. This is done in the following way.
 \begin{lstlisting}
 python configure.py <installation directory>
 make
@@ -28,7 +28,7 @@ The last command copies the library into the installation directory. If you do n
 \begin{lstlisting}
 sudo make install
 \end{lstlisting}
-instead. This will create a shared library \texttt{libmultigrid.so} and install it together with the necessary header file into the given installation directory.
+instead. This will create a shared library \texttt{libintegrid.so} and install it together with the necessary header file into the given installation directory.
 
 \subsection{Direct use}
 Alternatively, you could copy the files
