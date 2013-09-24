@@ -1,8 +1,16 @@
 Integrid
 =========
-The integrid library contains highly versatile integration grid classes for C++. The most important one is the multigrid class. It features the integration of multiple grid regions in order to resolve sharp peaks or steps in the integrand function. Hereby one can choose between equidistant, tangential and logarithmically dense grid regions. Although the number of grid regions is not bounded, there is an inverse mapping useful for fast interpolation purposes. Intersection and overlap of different grid region is possible and will be dealt with by favouring the better resolve grid region.
+The integrid library contains highly versatile integration grid classes for C++. The most important one is the multigrid class. It features the integration of multiple grid regions in order to resolve sharp peaks or steps in the integrand function. Hereby one can choose between equidistant, tangential and logarithmically dense grid regions. Although the number of grid regions is not bounded, there is an inverse mapping useful for fast interpolation purposes. Intersection and overlap of different grid region is possible and will be dealt with by favouring the better resolved grid region.
 
-The original purpose of the multigrid class was to resolve a lot of sharp Lorentz-like peaks in a self-consistent calculation on strongly correlated electron systems.
+The original purpose of the multigrid class was to resolve a lot of sharp Lorentz-like peaks in a `self-consistent calculation for strongly correlated electron systems`_.
+
+.. _self-consistent calculation for strongly correlated electron systems: https://github.com/tstollenw/euo
+
+Documentation
+=============
+Get the detailed user's guide here_.
+
+.. _here: doc/integrid_documentation.pdf
 
 Quick Start Guide
 =================
