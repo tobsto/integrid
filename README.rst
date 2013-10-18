@@ -14,13 +14,13 @@ Get the detailed user's guide here_.
 
 Quick Start Guide
 =================
-The purpose of this section is to give you a brief introduction of how the multigrid is used in practice. It may suffice for the most applications.
+The purpose of this section is to give you a brief introduction of how the multigrid class is used in practice. It may suffice for the most applications.
 
 Installation
 ------------
 There are two possibilities to incorporate the multigrid class in your program. First, you have to download the latest version of the multigrid class from ::
 
-    https://github.com/tstollenw/multigrid
+    https://github.com/tstollenw/integrid
 
 and unpack it somewhere. 
 
